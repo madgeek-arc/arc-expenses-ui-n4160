@@ -49,7 +49,7 @@ export class FormFieldComponent implements OnChanges {
 @Component({
     selector: 'app-form-upload-file',
     template: `
-<div data-tooltip title="Επιλέξτε αρχείο" (drop)="getDroppedFile($event)" (dragover)="allowDrop($event)">
+<div data-tooltip title="Επιλέξτε αρχείο" id="{{id}}" (drop)="getDroppedFile($event)" (dragover)="allowDrop($event)">
     <div class="uk-link uk-placeholder uk-text-center uk-margin-top uk-width-1-1" uk-form-custom>
         <i class="uk-icon-cloud-upload uk-icon-medium uk-text-muted uk-margin-small-right"></i>
         <input type="file" name="selectedFile" (change)="getInput($event)">
@@ -66,6 +66,7 @@ export class FormUploadFileComponent implements OnInit {
   uploadedFile: File;
 
   @Input() uploadedFilename = '';
+  @Input() id;
 
   @Output() emitFile: EventEmitter<File> = new EventEmitter<File>();
 

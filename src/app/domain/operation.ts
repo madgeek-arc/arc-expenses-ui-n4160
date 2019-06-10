@@ -274,10 +274,11 @@ export class YearlyBudget {
     contractAmount: number;
     tripAmount: number;
     servicesContractAmount: number;
+    comment: string;
     stage2: Stage2;
     stage4: Stage4;
     stage5a: Stage5a;
     stage6: Stage6;
-    boardDecision: Attachment[];
-    technicalReport: Attachment[];
+    boardDecision: Attachment;
+    technicalReport: Attachment;
 }

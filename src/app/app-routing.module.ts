@@ -10,6 +10,7 @@ import { AuthGuardService } from './services/auth-guard.service';
 import { ForbiddenPageComponent } from './shared/403-forbidden-page.component';
 import { RequestStagePaymentComponent } from './request-stage/request-stage-payment/request-stage-payment.component';
 import { CallHelpdeskPageComponent } from './error-pages/call-helpdesk-page.component';
+import { NewBudgetComponent } from './new-budget/new-budget.component';
 
 const appRoutes: Routes = [
   {
@@ -25,6 +26,11 @@ const appRoutes: Routes = [
     path: 'new-request/:type',
     canActivate: [AuthGuardService],
     component: NewRequestComponent
+  },
+  {
+    path: 'new-budget',
+    canActivate: [AuthGuardService],
+    component: NewBudgetComponent
   },
   {
     path: 'requests',

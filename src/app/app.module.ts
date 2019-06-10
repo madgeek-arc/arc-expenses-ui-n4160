@@ -33,6 +33,8 @@ import { ForbiddenPageComponent } from './shared/403-forbidden-page.component';
 import { ManageResourcesService } from './services/manage-resources.service';
 import { RequestStagePaymentComponent } from './request-stage/request-stage-payment/request-stage-payment.component';
 import { CallHelpdeskPageComponent } from './error-pages/call-helpdesk-page.component';
+import { NewBudgetComponent } from './new-budget/new-budget.component';
+import { ManageBudgetsService } from './services/manage-budgets.service';
 
 registerLocaleData(localeEL);
 
@@ -58,14 +60,15 @@ const stagesList = [
     declarations: [
         AppComponent,
         TopMenuComponent,
-        NewRequestComponent,
         HomeComponent,
-        RequestsComponent,
         AboutComponent,
         SignUpComponent,
+        NewRequestComponent,
+        RequestsComponent,
         RequestStageComponent,
         RequestStagePaymentComponent,
         Stage1FormComponent,
+        NewBudgetComponent,
         StagesLoaderComponent,
         ForbiddenPageComponent,
         CallHelpdeskPageComponent,
@@ -89,6 +92,7 @@ const stagesList = [
         ManageResourcesService,
         ManageRequestsService,
         ManageProjectService,
+        ManageBudgetsService,
         AuthenticationService,
         AuthGuardService
     ],

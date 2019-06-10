@@ -1,0 +1,226 @@
+<div *ngIf="showSpinner" class="whiteFilm"><i class="fa fa-spinner fa-spin fa-5x loader" aria-hidden="true"></i></div>
+<div class="uk-section-default uk-section uk-section-small uk-padding-remove-bottom" style="min-height: 325px">
+    <div class="uk-container uk-container-expand">
+        <div class="tm-header-placeholder uk-margin-remove-adjacent" style="height: 84px;"></div>
+        <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
+            <div class="uk-width-1-1@m uk-first-column">
+
+                <h1 class="uk-h3 uk-heading-bullet uk-padding-small">Ετήσιος προϋπολογισμός</h1>
+                <!--<hr class="uk-divider-small">-->
+
+
+                <!-- TOP HELP CONTENT -->
+                <help-content #topHelperContent [position]="'top'"
+                              [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+                </help-content>
+
+                <div class="uk-container uk-container-expand uk-margin-medium-top uk-margin-medium-bottom">
+                    <div class="uk-grid">
+
+                        <!-- LEFT HELP CONTENT -->
+                        <aside-help-content #leftHelperContent [position]="'left'"
+                                            [ngClass]="leftHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
+                        </aside-help-content>
+
+                        <!-- MIDDLE -->
+                        <div class=" uk-width-expand@m">
+
+                            <div *ngIf="errorMessage" class="uk-alert uk-alert-danger">{{ errorMessage }}</div>
+
+                            <div *ngIf="projects && (projects.length > 0)">
+                                <form *ngIf="newBudgetForm && currentUser"
+                                      [formGroup]="newBudgetForm" class="uk-form-horizontal">
+                                    <div class="uk-margin">
+                                        <label class="uk-form-label">Από</label>
+                                        <div class="uk-form-controls">
+                                            <div class="uk-grid uk-width-1-1">
+                                                <div class="uk-width-expand">
+                                                    <input class="uk-input" type="text" placeholder="Oνοματεπώνυμο" formControlName="userFullName">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="uk-margin">
+                                        <label class="uk-form-label" for="project">Επιλέξτε έργο (*)</label>
+                                        <div class="uk-form-controls">
+                                            <div class="uk-grid uk-width-1-1">
+                                                <div class="uk-width-1-2@s">
+                                                    <input class="uk-input" type="text" id="project" autocomplete="off"
+                                                           (keyup)="updateSearchTerm($event)" formControlName="project">
+                                                    <div *ngIf="searchTerm" class="uk-nav uk-padding-small uk-width-large uk-position-absolute"
+                                                         style="background-color: white; z-index: 1000 !important;">
+                                                        <ul>
+                                                            <li *ngFor="let project of projects | filterByTerm: searchTerm: 'projectAcronym'">
+                                                                <a (click)="updateProjectInput(project)">{{ project.projectAcronym }} ({{ project.instituteName }})</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="uk-width-1-2@s">
+                                                    <input class="uk-input" id="request-institute"
+                                                           formControlName="institute" placeholder="Ινστιτούτο/Μονάδα">
+                                                </div>
+                                            </div>
+                                            <div class="uk-comment-body uk-text-small uk-text-muted">
+                                                <i>Ξεκινήστε να γράφετε το όνομα του έργου και επιλέξτε το από την λίστα που θα εμφανιστεί.</i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="uk-margin">
+                                        <label class="uk-form-label" for="year">Έτος (*)</label>
+                                        <div class="uk-form-controls">
+                                            <div class="uk-grid uk-width-1-1">
+                                                <div class="uk-width-expand">
+                                                    <input class="uk-input" type="text" id="year" formControlName="year">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="uk-margin">
+                                        <label class="uk-form-label">Δαπάνες έτους <span>(*)</span></label>
+                                        <div class="uk-form-controls">
+                                            <div class="uk-width-1-1 uk-grid uk-child-width-1-2@m">
+                                                <div>
+                                                    <div>
+                                                        <label for="regularAmount" class="uk-inline uk-margin-right">Προμήθειες</label>
+                                                        <div class="uk-width-small">
+                                                            <input class="uk-input" type="text" id="regularAmount"
+                                                                   formControlName="regularAmount" placeholder="0" (keyup)="showAmount('regularAmount')"
+                                                                   (focus)="newBudgetForm.get('regularAmount').markAsUntouched()">
+                                                        </div>
+                                                    </div>
+                                                    <div *ngIf="newBudgetForm.get('regularAmount').invalid &&
+                                                                newBudgetForm.get('regularAmount').touched &&
+                                                                newBudgetForm.get('regularAmount').dirty"
+                                                         class="uk-comment-body uk-text-small uk-text-danger">
+                                                        Ο αριθμός δεν είναι έγκυρος.
+                                                    </div>
+                                                    <div *ngIf="amountsByType['regularAmount']"
+                                                         class="uk-comment-body uk-text-small uk-text-muted">
+                                                        Το ποσό είναι: <span class="uk-text-bold">{{ amountsByType['regularAmount'] | currency: 'EUR': 'symbol-narrow' }}</span>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div>
+                                                        <label for="contractAmount" class="uk-inline uk-margin-right">Συμβάσεις έργου</label>
+                                                        <div class="uk-width-small">
+                                                            <input class="uk-input" type="text" id="contractAmount"
+                                                                   formControlName="contractAmount" placeholder="0" (keyup)="showAmount('contractAmount')"
+                                                                   (focus)="newBudgetForm.get('contractAmount').markAsUntouched()">
+                                                        </div>
+                                                    </div>
+                                                    <div *ngIf="newBudgetForm.get('contractAmount').invalid &&
+                                                                newBudgetForm.get('contractAmount').touched &&
+                                                                newBudgetForm.get('contractAmount').dirty"
+                                                         class="uk-comment-body uk-text-small uk-text-danger">
+                                                        Ο αριθμός δεν είναι έγκυρος.
+                                                    </div>
+                                                    <div *ngIf="amountsByType['contractAmount']"
+                                                         class="uk-comment-body uk-text-small uk-text-muted">
+                                                        Το ποσό είναι: <span class="uk-text-bold">{{ amountsByType['contractAmount'] | currency: 'EUR': 'symbol-narrow' }}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="uk-margin-top">
+                                                    <div>
+                                                        <label for="tripAmount" class="uk-inline uk-margin-right">Ταξίδια</label>
+                                                        <div class="uk-width-small">
+                                                            <input class="uk-input" type="text" id="tripAmount"
+                                                                   formControlName="tripAmount" placeholder="0" (keyup)="showAmount('tripAmount')"
+                                                                   (focus)="newBudgetForm.get('tripAmount').markAsUntouched()">
+                                                        </div>
+                                                    </div>
+                                                    <div *ngIf="newBudgetForm.get('tripAmount').invalid &&
+                                                                newBudgetForm.get('tripAmount').touched &&
+                                                                newBudgetForm.get('tripAmount').dirty"
+                                                         class="uk-comment-body uk-text-small uk-text-danger">
+                                                        Ο αριθμός δεν είναι έγκυρος.
+                                                    </div>
+                                                    <div *ngIf="amountsByType['tripAmount']" class="uk-comment-body uk-text-small uk-text-muted">
+                                                        Το ποσό είναι: <span class="uk-text-bold">{{ amountsByType['tripAmount'] | currency: 'EUR': 'symbol-narrow' }}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="uk-margin-top">
+                                                    <div>
+                                                        <label for="servicesContractAmount" class="uk-inline uk-margin-right">Συμβάσεις Υπηρεσίας</label>
+                                                        <div class="uk-width-small">
+                                                            <input class="uk-input" type="text" id="servicesContractAmount"
+                                                                   formControlName="servicesContractAmount" placeholder="0" (keyup)="showAmount('servicesContractAmount')"
+                                                                   (focus)="newBudgetForm.get('servicesContractAmount').markAsUntouched()">
+                                                        </div>
+                                                    </div>
+                                                    <div *ngIf="newBudgetForm.get('servicesContractAmount').invalid &&
+                                                                newBudgetForm.get('servicesContractAmount').touched &&
+                                                                newBudgetForm.get('servicesContractAmount').dirty"
+                                                         class="uk-comment-body uk-text-small uk-text-danger">
+                                                        Ο αριθμός δεν είναι έγκυρος.
+                                                    </div>
+                                                    <div *ngIf="amountsByType['servicesContractAmount']"
+                                                         class="uk-comment-body uk-text-small uk-text-muted">
+                                                        Το ποσό είναι: <span class="uk-text-bold">{{ amountsByType['servicesContractAmount'] | currency: 'EUR': 'symbol-narrow' }}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="uk-comment-body uk-text-small uk-text-muted">
+                                                <i>Οι αριθμοί θα πρέπει να είναι δεκαδικοί της μορφής: <b>1111.11</b></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="uk-margin">
+                                        <label class="uk-form-label" for="comments">Σχόλια</label>
+                                        <div class="uk-form-controls">
+                                            <div class="uk-width-1-1">
+                                                <div class="uk-width-1-1@s">
+                                                    <textarea class="uk-textarea" id="comments" formControlName="comment" rows="3"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="uk-margin">
+                                        <label class="uk-form-label">Απόφαση Δ.Σ. <span>(*)</span></label>
+                                        <div class="uk-form-controls">
+                                            <app-form-upload-file [id]="'ds'"
+                                                                  (emitFile)="getBoardDecisionFile($event)"></app-form-upload-file>
+                                        </div>
+                                    </div>
+                                    <div class="uk-margin">
+                                        <label class="uk-form-label">Τεχνικό Δελτίο <span>(*)</span></label>
+                                        <div class="uk-form-controls">
+                                            <app-form-upload-file [id]="'tr'"
+                                                                  (emitFile)="getTechnicalReportFile($event)"></app-form-upload-file>
+                                        </div>
+                                    </div>
+
+                                    <div class="uk-margin-medium-top">
+                                        <div class="uk-form-controls">
+                                            <div class="uk-width-1-1">
+                                                <div class="uk-width-1-2@s uk-align-left">
+                                                    <button class="uk-button uk-button-primary" (click)="submitBudget()" type="submit"
+                                                            style="width: 200px">Υποβολή</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+
+                        <!-- RIGHT HELP CONTENT -->
+                        <aside-help-content #rightHelperContent [position]="'right'"
+                                            [ngClass]="rightHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
+                        </aside-help-content>
+
+                    </div>
+                </div>
+
+
+                <!-- BOTTOM HELP CONTENT -->
+                <help-content #bottomHelperContent [position]="'bottom'"
+                              [ngClass]="bottomHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+                </help-content>
+
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -45,7 +45,7 @@ export class NewRequestComponent implements OnInit {
     reqPositions = requesterPositions;
 
     programSelected = false;
-    isRequestOnBehalfOfOther;
+    isRequestOnBehalfOfOther: boolean;
 
     title = 'Δημιουργία νέου αιτήματος';
 
@@ -218,7 +218,7 @@ export class NewRequestComponent implements OnInit {
                 this.requestService.add<any>(newRequest).subscribe (
                     event => {
                         if (event.type === HttpEventType.UploadProgress) {
-                            console.log('uploadAttachment responded: ', event.loaded);
+                            console.log('addRequest responded: ', event.loaded);
                         } else if ( event instanceof HttpResponse) {
                             console.log('final event:', event.body);
                         }
