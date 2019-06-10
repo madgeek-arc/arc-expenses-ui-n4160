@@ -137,10 +137,7 @@ export class RequestApproval extends BaseInfo {
     stage1: Stage1;
     stage2: Stage2;
     stage3: Stage3;
-    stage4: Stage4;
-    stage5a: Stage5a;
     stage5b: Stage5b;
-    stage6: Stage6;
 }
 
 export class RequestPayment extends BaseInfo {
@@ -196,8 +193,6 @@ export class Stage2 extends Stage {
 export class Stage3 extends Stage {
     analiftheiYpoxrewsi: boolean;
     fundsAvailable: boolean;
-    loan: boolean;
-    loanSource: string;
     approved: boolean;
 }
 
@@ -223,6 +218,7 @@ export class Stage7 extends Stage {
 }
 
 export class Stage7a extends Stage {
+    loan: boolean;
     approved: boolean;
 }
 
@@ -265,3 +261,23 @@ export type RequestStatus = 'CANCELLED' | 'PENDING' | 'ACCEPTED' | 'REJECTED';
 export type Status = 'CANCELLED' | 'PENDING' | 'ACCEPTED' | 'UNDER_REVIEW' | 'REJECTED';
 
 export type SupplierSelectionMethod = 'DIRECT' | 'MARKET_RESEARCH' | 'AWARD_PROCEDURE';
+
+export class YearlyBudget {
+    id: string;
+    projectId: string;
+    year: number;
+    submittedBy: User;
+    creationDate: number;
+    status: Status;
+    stage: string;
+    regularAmount: number;
+    contractAmount: number;
+    tripAmount: number;
+    servicesContractAmount: number;
+    stage2: Stage2;
+    stage4: Stage4;
+    stage5a: Stage5a;
+    stage6: Stage6;
+    boardDecision: Attachment[];
+    technicalReport: Attachment[];
+}

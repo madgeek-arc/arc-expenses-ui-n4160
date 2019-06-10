@@ -1,5 +1,5 @@
 import { analiftheiYpoxrewsiDesc, checkFeasibilityDesc, checkLegalityDesc, checkNecessityDesc, checkRegularityDesc,
-         commentDesc, fundsAvailableDesc, loanDesc, loanSourceDesc, FieldDescription, stageTitles } from './stageDescriptions';
+         commentDesc, fundsAvailableDesc, loanDesc, FieldDescription, stageTitles } from './stageDescriptions';
 import { Type } from '@angular/core';
 import {
     Stage10Component, Stage11Component, Stage12Component, Stage13Component, Stage2Component,
@@ -88,7 +88,7 @@ export class RequestInfo {
         this['2'] = new StageInfo(
             stageTitles['2'],
             ['1'],
-            ['3'],
+            ['3', '4'],
             Stage2Component,
             [checkNecessityDesc, checkFeasibilityDesc, commentDesc],
             new SubmittedStageResultMap(
@@ -101,20 +101,20 @@ export class RequestInfo {
         this['3'] = new StageInfo(
             stageTitles['3'],
             ['2'],
-            ['4'],
+            ['5b'],
             Stage3Component,
-            [analiftheiYpoxrewsiDesc, fundsAvailableDesc, loanDesc, loanSourceDesc, commentDesc],
+            [analiftheiYpoxrewsiDesc, fundsAvailableDesc, commentDesc],
             new SubmittedStageResultMap(
-                'Εγκρίθηκε από τον χειριστή του προγράμματος',
-                'Απορρίφθηκε από τον χειριστή του προγράμματος',
-                'Επεστράφη στο προηγούμενο στάδιο από τον χειριστή του προγράμματος'
+                'Εγκρίθηκε από τον χειριστή του έργου',
+                'Απορρίφθηκε από τον χειριστή του έργου',
+                'Επεστράφη στο προηγούμενο στάδιο από τον χειριστή του έργου'
             )
         );
 
         this['4'] = new StageInfo(
             stageTitles['4'],
-            ['3'],
-            ['5a', '5b', '6'],
+            ['2'],
+            ['5a'],
             Stage4Component,
             [analiftheiYpoxrewsiDesc, fundsAvailableDesc, commentDesc],
             new SubmittedStageResultMap(
@@ -139,8 +139,8 @@ export class RequestInfo {
 
         this['5b'] = new StageInfo(
             stageTitles['5b'],
-            ['5a', '4'],
-            ['6'],
+            ['3'],
+            [],
             Stage5bComponent,
             [commentDesc],
             new SubmittedStageResultMap(
@@ -152,7 +152,7 @@ export class RequestInfo {
 
         this['6'] = new StageInfo(
             stageTitles['6'],
-            ['5b', '5a', '4'],
+            ['5a'],
             [],
             Stage6Component,
             [commentDesc],
@@ -166,7 +166,7 @@ export class RequestInfo {
         this['7'] = new StageInfo(
             stageTitles['7'],
             [],
-            ['7a', '8'],
+            ['7a'],
             Stage7Component,
             [commentDesc],
             new SubmittedStageResultMap(
@@ -181,17 +181,17 @@ export class RequestInfo {
             ['7'],
             ['8'],
             Stage7aComponent,
-            [commentDesc],
+            [loanDesc, commentDesc],
             new SubmittedStageResultMap(
-                'Εγκρίθηκε από το Διοικητικό Συμβούλιο',
-                'Απορρίφθηκε από το Διοικητικό Συμβούλιο',
-                'Επεστράφη στο προηγούμενο στάδιο από το Διοικητικό Συμβούλιο'
+                'Εγκρίθηκε από τον χειριστή του έργου',
+                'Απορρίφθηκε από τον χειριστή του έργου',
+                'Επεστράφη στο προηγούμενο στάδιο από τον χειριστή του έργου'
             )
         );
 
         this['8'] = new StageInfo(
             stageTitles['8'],
-            ['7a', '7'],
+            ['7a'],
             ['9'],
             Stage8Component,
             [checkRegularityDesc, checkLegalityDesc, commentDesc],

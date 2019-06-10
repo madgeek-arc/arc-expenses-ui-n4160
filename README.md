@@ -1,10 +1,12 @@
 # Arc-Expenses-Ui-N4160
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.3.
+This project uses [Angular CLI](https://github.com/angular/angular-cli) version 6.2.9
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`.
+You can change the host and port by editing the `angular.json` file.
+The app will automatically reload if you change any of the source files.
 
 ## Code scaffolding
 
@@ -13,6 +15,8 @@ Run `ng generate component component-name` to generate a new component. You can 
 ## Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+Make sure you delete the `dist/` folder before running the command.<br>
+A script has been created in `package.json` to both delete the folder and build the project for production. To run it type `npm run build`.
 
 ## Running unit tests
 

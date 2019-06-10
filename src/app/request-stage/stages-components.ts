@@ -204,8 +204,8 @@ export class StageComponent implements OnInit {
             if ( ((this.updateMode === 'approve') || (this.updateMode === 'edit')) &&
                  ( ((this.uploadedFiles == null) || (this.uploadedFiles.length === 0)) &&
                    ((this.currentStage['attachments'] == null) || (this.currentStage.attachments.length === 0)) ) &&
-                 ( (this.stageId === '6') || (this.stageId === '11') ||
-                   (this.stageId === '7') || (this.stageId === '7a')) ) {
+                 ( (this.stageId === '6') || (this.stageId === '7') || (this.stageId === '11') ||
+                   ((this.stageId === '7a') && (this.currentStage['loan'] === true)) ) ) {
 
                 this.stageFormError = 'Η επισύναψη εγγράφων είναι υποχρεωτική.';
 
@@ -273,7 +273,7 @@ export class Stage2Component extends StageComponent implements OnInit {
 
 @Component ({
     selector: 'stage3-component',
-    templateUrl: './stages-templates/stage3.component.html'
+    templateUrl: './stages-components.html'
 })
 export class Stage3Component extends StageComponent implements OnInit {
 
@@ -281,27 +281,11 @@ export class Stage3Component extends StageComponent implements OnInit {
         this.stageFormDefinition = {
             analiftheiYpoxrewsi: ['', Validators.requiredTrue],
             fundsAvailable: ['', Validators.requiredTrue],
-            loan: [''],
-            loanSource: [''],
             comment: ['']
         };
         this.stageId = '3';
 
         super.ngOnInit();
-
-        if (this.stageForm && !this.stageForm.get('loan').value ) {
-            this.stageForm.get('loanSource').disable();
-        }
-    }
-
-    onLoanToggle (checkedLoan: boolean) {
-        if (checkedLoan && (this.stageForm !== undefined) ) {
-            this.stageForm.get('loanSource').enable();
-            this.stageForm.get('loanSource').setValidators([Validators.required]);
-            this.stageForm.get('loanSource').updateValueAndValidity();
-        } else {
-            this.stageForm.get('loanSource').disable();
-        }
     }
 }
 
@@ -552,6 +536,7 @@ export class Stage7aComponent extends StageComponent implements OnInit {
 
     ngOnInit () {
         this.stageFormDefinition = {
+            loan: [''],
             comment: ['']
         };
         this.stageId = '7a';
