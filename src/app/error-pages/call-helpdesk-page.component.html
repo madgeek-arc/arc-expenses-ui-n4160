@@ -1,0 +1,56 @@
+<div class="uk-section-default uk-section uk-section-small uk-padding-remove-bottom" style="min-height: 325px">
+    <div class="uk-container uk-position-center">
+        <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
+            <div class="uk-first-column">
+
+                <h1 class="uk-h2 uk-margin-large-top">Πρόβλημα κατά την σύνδεση</h1>
+
+                <!-- TOP HELP CONTENT -->
+                <help-content #topHelperContent [position]="'top'"
+                              [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+                </help-content>
+
+                <div class="uk-container uk-margin-large-bottom">
+                    <div class="uk-grid">
+
+                        <!-- LEFT HELP CONTENT -->
+                        <aside-help-content #leftHelperContent [position]="'left'"
+                                            [ngClass]="leftHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
+                        </aside-help-content>
+
+                        <!-- MIDDLE -->
+                        <div class=" uk-width-expand@m">
+
+                            <div class="uk-text-left">
+                                <!-- TODO:: EDIT THE TEXT !!! -->
+                                Δεν κατέστη δυνατή η σύνδεσή σας στο σύστημα
+                                <!--<p>Δεν κατέστη δυνατή η ανάκτηση των πληροφοριών σχετικά με τον λογαριασμό σας.</p>
+                                <p>Παρακαλούμε επικοινωνήστε με τους υπεύθυνους παροχής του λογαριασμού σας ή</p>
+                                <div class="uk-text-center">
+                                    <button class="uk-button uk-button-large uk-button-primary" (click)="loginWithOtherAccount()">
+                                        Συνδεθείτε με χρήση άλλου λογαριασμού
+                                    </button>
+                                </div>-->
+                            </div>
+
+                        </div>
+
+                        <!-- RIGHT HELP CONTENT -->
+                        <aside-help-content #rightHelperContent [position]="'right'"
+                                            [ngClass]="rightHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
+                        </aside-help-content>
+
+                    </div>
+                </div>
+
+
+                <!-- BOTTOM HELP CONTENT -->
+                <help-content #bottomHelperContent [position]="'bottom'"
+                              [ngClass]="bottomHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+                </help-content>
+
+
+            </div>
+        </div>
+    </div>
+</div>

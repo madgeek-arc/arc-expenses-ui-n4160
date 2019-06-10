@@ -1,0 +1,92 @@
+<div>
+
+    <div *ngIf="errorMessage" class="uk-alert uk-alert-danger">{{ errorMessage }}</div>
+
+    <form *ngIf="currentRequest && updateStage1Form" [formGroup]="updateStage1Form"
+          class="uk-margin-bottom uk-width-1-1 uk-grid">
+
+        <div class="uk-width-1-2@l">
+            <span class="uk-text-bold uk-margin-small-right">Πρόγραμμα: </span>
+            <span>{{ currentRequest.projectAcronym }} ({{currentRequest.instituteName}})</span>
+        </div>
+        <div class="uk-width-1-2@l">
+            <span class="uk-text-bold uk-margin-small-right">Ημερομηνία προηγούμενης υποβολής: </span>
+            <span>{{ currentRequest.stages['1']['requestDate'] | date : 'dd-MM-yyyy' }}</span>
+        </div>
+        <div class="uk-width-1-1@l uk-grid">
+            <div class="uk-width-1-2@l">
+                <span class="uk-text-bold uk-margin-small-right">Από: </span>
+                <span *ngIf="currentRequest.requesterFullName">
+                    {{ currentRequest.requesterFullName }} ({{ reqPositions[currentRequest.requesterPosition] }})
+                </span>
+            </div>
+            <div *ngIf="currentRequest.onBehalfFullName" class="uk-width-1-2@l">
+                <span class="uk-text-bold uk-margin-small-right">Εκ μέρους του/της: </span>
+                <span>{{ currentRequest.onBehalfFullName }}</span>
+            </div>
+        </div>
+
+        <div class="uk-width-1-1@l">
+            <label class="uk-text-bold uk-margin-small-right">Θέμα (*):</label>
+            <textarea class="uk-textarea" rows="3" formControlName="requestText"></textarea>
+        </div>
+
+        <div *ngIf="(currentRequest.type !== 'TRIP') &&
+                    (currentRequest.type !== 'CONTRACT')" class="uk-width-1-2@l">
+            <label class="uk-text-bold uk-margin-small-right">Προμηθευτής <span [hidden]="isSupplierRequired === false">(*)</span>:</label>
+            <input class="uk-input" type="text" placeholder="" id="request-supplier"
+                   formControlName="supplier">
+        </div>
+        <div *ngIf="(currentRequest.type !== 'TRIP') &&
+                    (currentRequest.type !== 'CONTRACT')" class="uk-width-1-2@l">
+            <label class="uk-text-bold uk-margin-small-right">Τρόπος επιλογής προμηθευτή (*): </label>
+            <select class="uk-select" id="request-ssm" formControlName="supplierSelectionMethod"
+                    name="ssm" (change)="checkIfSupplierIsRequired()">
+
+                <option value="">-- επιλέξτε τρόπο --</option>
+                <option value="DIRECT">{{ selMethods['DIRECT'] }}</option>
+                <option value="MARKET_RESEARCH">{{ selMethods['MARKET_RESEARCH'] }}</option>
+                <option value="AWARD_PROCEDURE">{{ selMethods['AWARD_PROCEDURE'] }}</option>
+            </select>
+        </div>
+        <div *ngIf="currentRequest.type === 'TRIP'" class="uk-width-1-2@l">
+            <span class="uk-text-bold uk-margin-small-right">Προορισμός: </span>
+            <span>{{ currentRequest.tripDestination }}</span>
+        </div>
+        <div class="uk-width-1-2@l">
+            <label class="uk-text-bold uk-margin-small-right">Ποσό (σε EUR) (*): </label>
+            <input class="uk-input" type="text" formControlName="amount" placeholder="0" (keyup)="showAmount()">
+            <div *ngIf="showWarning" class="uk-text-primary">
+                Για ποσά μεταξύ 2.500 € και 20.000 € είναι απαραίτητο να συμπληρώσετε το ακριβές ποσό.
+            </div>
+            <div class="uk-comment-body uk-text-small uk-text-muted">
+                <i>Ο δεκαδικός αριθμός θα πρέπει να είναι της μορφής: <b>1111.11</b></i>
+            </div>
+            <div *ngIf="updateStage1Form.get('amount').invalid &&
+                        updateStage1Form.get('amount').touched &&
+                        updateStage1Form.get('amount').dirty"
+                 class="uk-comment-body uk-text-small uk-text-danger">
+
+                Ο αριθμός δεν είναι έγκυρος.
+            </div>
+            <div *ngIf="requestedAmount && updateStage1Form.get('amount').valid"
+                 class="uk-comment-body uk-text-small uk-text-muted">
+
+                Το ποσό είναι: {{ requestedAmount | currency: 'EUR': 'symbol-narrow' }}
+            </div>
+        </div>
+
+        <div class="uk-width-1-1@l">
+            <div class="uk-form-controls uk-form-controls-text">
+                <app-form-upload-files [uploadedFilenames]="stage1AttachmentNames"
+                                       (emitFiles)="getUploadedFiles($event)"
+                                       (emitDelete)="removeUploadedFile($event)"></app-form-upload-files>
+            </div>
+        </div>
+        <div class="uk-width-1-1\@l">
+            <button class="uk-button uk-button-primary" (click)="updateStage1()">
+                {{ ((currentRequest != null) && (currentRequest.baseInfo.stage === '2')) ? 'Αποθήκευση αλλαγών': 'Υποβολή'}}</button>
+        </div>
+    </form>
+
+</div>

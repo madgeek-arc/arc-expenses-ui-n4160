@@ -1,0 +1,304 @@
+<div *ngIf="showSpinner" class="whiteFilm"><i class="fa fa-spinner fa-spin fa-5x loader" aria-hidden="true"></i></div>
+<div class="uk-section-default uk-section uk-section-small uk-padding-remove-bottom" style="min-height: 325px">
+  <div class="uk-container uk-container-expand">
+    <div class="tm-header-placeholder uk-margin-remove-adjacent" style="height: 84px;"></div>
+    <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
+      <div class="uk-width-1-1@m uk-first-column">
+
+        <h1 id="requestTitle" class="uk-h3 uk-heading-bullet uk-padding-small">
+          Αίτημα {{currentRequestApproval ? currentRequestApproval.baseInfo.requestId : ''}}
+          <span *ngIf="currentRequestApproval" class="uk-text-small">
+            [{{ reqTypes[currentRequestApproval.type] }}]</span>
+        </h1>
+
+        <!-- TOP HELP CONTENT -->
+        <help-content #topHelperContent [position]="'top'"
+                      [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+        </help-content>
+
+        <div class="uk-container uk-container-expand uk-margin-medium-top uk-margin-medium-bottom">
+          <div class="uk-grid">
+
+            <!-- LEFT HELP CONTENT -->
+            <aside-help-content #leftHelperContent [position]="'left'"
+                                [ngClass]="leftHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
+            </aside-help-content>
+
+            <!-- MIDDLE -->
+            <div class=" uk-width-expand@m">
+              <div *ngIf="errorMessage" class="uk-alert uk-alert-danger">{{ errorMessage }}</div>
+              <div *ngIf="successMessage" class="uk-alert uk-alert-success">{{ successMessage }}</div>
+              <div *ngIf="notFoundMessage" class="uk-alert">{{ notFoundMessage }}</div>
+
+              <div id="printable-section" *ngIf="!showSpinner && currentRequestInfo">
+
+                <!--1st stage-->
+                <div *ngIf="showStage1" class="submittedRequest">
+                  <div *ngIf="currentRequestInfo.previousStage && (currentRequestInfo.previousStage === '1')">
+                    <button class="uk-button uk-button-small uk-button-primary" style="border-radius: 3px !important;"
+                            (click)="editStage1()">Επεξεργασία</button>
+                  </div>
+                  <div class="uk-margin-bottom uk-width-1-1 uk-grid">
+                    <div class="uk-width-1-2@l">
+                      <span class="uk-text-bold uk-margin-small-right">Πρόγραμμα:</span>
+                      <span *ngIf="currentRequestApproval.projectAcronym">
+                        {{ currentRequestApproval.projectAcronym }} ({{currentRequestApproval.instituteName}})
+                      </span>
+                    </div>
+                    <div class="uk-width-1-2@l">
+                      <span class="uk-text-bold uk-margin-small-right">Ημερομηνία υποβολής:</span>
+                      <span>{{ currentRequestApproval.stages['1']['requestDate'] | date : 'dd-MM-yyyy' }}</span>
+                    </div>
+                    <div class="uk-width-1-2@l">
+                      <span class="uk-text-bold uk-margin-small-right">Από:</span>
+                      <span>
+                        {{ currentRequestApproval.requesterFullName }} ({{ reqPositions[currentRequestApproval.requesterPosition] }})
+                      </span>
+                    </div>
+                    <div class="uk-width-1-2@l">
+                      <div *ngIf="currentRequestApproval.onBehalfFullName">
+                        <span class="uk-text-bold uk-margin-small-right">Εκ μέρους του/της:</span>
+                        <span>{{ currentRequestApproval.onBehalfFullName }}</span>
+                      </div>
+                    </div>
+
+                    <div class="uk-width-1-1@l">
+                      <span class="uk-text-bold uk-margin-small-right">Θέμα:</span>
+                      <span>{{ currentRequestApproval.stages['1']['subject'] }}</span>
+                    </div>
+
+                    <div *ngIf="(currentRequestApproval.type !== 'TRIP') && (currentRequestApproval.type !== 'CONTRACT')" class="uk-width-1-2@l">
+                      <span class="uk-text-bold uk-margin-small-right">Προμηθευτής:</span>
+                      <span>{{ currentRequestApproval.stages['1']['supplier'] }} ({{ selMethods[currentRequestApproval.stages['1']['supplierSelectionMethod']] }})</span>
+                    </div>
+                    <div *ngIf="currentRequestApproval.type === 'TRIP'" class="uk-width-1-2@l">
+                      <span class="uk-text-bold uk-margin-small-right">Προορισμός:</span>
+                      <span>{{ currentRequestApproval.tripDestination }}</span>
+                    </div>
+                    <div class="uk-width-1-2@l">
+                      <span class="uk-text-bold uk-margin-small-right">
+                        {{ (currentRequestApproval.stages['1']['amountInEuros'] !== currentRequestApproval.stages['1']['finalAmount']) ? 'Τελικό π': 'Π' }}οσό:</span>
+                      <span>{{ currentRequestApproval.stages['1']['finalAmount'] | currency: 'EUR': 'symbol-narrow' }}</span>
+                    </div>
+
+                    <div *ngIf="currentRequestApproval.stages['1'].attachments && (currentRequestApproval.stages['1'].attachments.length > 0)"
+                         class="uk-margin-small-top uk-width-1-1@l " data-html2canvas-ignore>
+                      Για λήψη του αρχείου που επιθυμείτε, πατήστε στον αντίστοιχο σύνδεσμο:
+                      <span *ngFor="let f of currentRequestApproval.stages['1'].attachments; let i = index">
+                        <a class="uk-link uk-width-1-1@l" (click)="linkToFile(i)">
+                          {{ f.filename }}
+                        </a>
+                        <span *ngIf="currentRequestApproval.stages['1'].attachments.length > i + 1"> |</span>
+                      </span>
+                    </div>
+
+                  </div>
+                </div>
+
+                <!-- stage 1 form -->
+                <div *ngIf="!showStage1" data-html2canvas-ignore>
+                  <stage1-form [currentRequest]="currentRequestApproval"
+                               (emitRequest)="getUpdatedRequest($event)"></stage1-form>
+                </div>
+
+                <!-- Link to Payment -->
+                <div *ngIf="((currentRequestApproval.type !== 'SERVICES_CONTRACT') &&
+                             (currentRequestPayments != null) &&
+                             (currentRequestPayments.length > 0))" class="" data-html2canvas-ignore>
+                  <a [routerLink]="['/requests/request-stage-payment', currentRequestPayments[0].id]">
+                    Μετάβαση στη σελίδα εξόφλησης δαπάνης</a>
+                </div>
+
+                <!--end of 1st stage-->
+                <div class="uk-text-right" data-html2canvas-ignore>
+                  <span *ngIf="canBeCancelled"
+                        class="uk-margin-small-right"
+                        title="{{ getTooltipText() }}" uk-tooltip>
+                    <button class="uk-button uk-button-danger" style="min-width: 200px;" type="button"
+                            [disabled]="currentRequestPayments.length > 0"
+                            uk-toggle="target: #cancellationModal">
+                      Ακύρωση Αιτήματος
+                    </button>
+                  </span>
+
+                  <button class="uk-button uk-button-primary" (click)="printRequest()"
+                          title="Πατήστε για λήψη του<br>αιτήματος σε μορφή pdf" uk-tooltip  style="min-width: 200px;">
+                    Λήψη ως PDF</button>
+                </div>
+
+                <!-- Submitted stages view -->
+                <hr>
+
+                <div class="uk-margin-top" *ngIf="(currentRequestInfo['2'].showStage >= 1)">
+                    <h4>Ανάληψη υποχρέωσης δαπάνης</h4>
+                </div>
+
+                <!-- PHASE 1  -->
+                <div class="uk-child-width-expand uk-grid" uk-grid
+                     *ngIf="(currentRequestInfo['2'].showStage > 1) || (currentRequestInfo['3'].showStage > 1)">
+
+                  <stage2-component class="uk-card uk-card-body uk-card-basic-info uk-margin-left"
+                                    *ngIf="currentRequestInfo['2'].showStage > 1"
+                                    [data]="{currentStage: currentRequestApproval.stages['2'], currentRequestInfo: currentRequestInfo}"
+                                    (promptEdit)="editPreviousStage($event)"></stage2-component>
+
+                  <stage3-component class="uk-card uk-card-body uk-card-basic-info uk-margin-left"
+                                    *ngIf="currentRequestInfo['3'].showStage > 1"
+                                    [data]="{currentStage: currentRequestApproval.stages['3'], currentRequestInfo: currentRequestInfo}"
+                                    (promptEdit)="editPreviousStage($event)"></stage3-component>
+
+                  <stage4-component class="uk-card uk-card-body uk-card-basic-info uk-margin-left"
+                                    *ngIf="currentRequestInfo['4'].showStage > 1"
+                                    [data]="{currentStage: currentRequestApproval.stages['4'], currentRequestInfo: currentRequestInfo}"
+                                    (promptEdit)="editPreviousStage($event)"></stage4-component>
+
+                </div>
+
+
+
+                <div class="uk-child-width-expand uk-grid" uk-grid
+                     *ngIf="(currentRequestInfo['5a'].showStage > 1) || (currentRequestInfo['5b'].showStage > 1) || (currentRequestInfo['6'].showStage > 1)">
+
+                  <stage5a-component class="uk-card uk-card-body uk-card-basic-info uk-margin-left"
+                                     *ngIf="currentRequestInfo['5a'].showStage > 1"
+                                     [data]="{currentStage: currentRequestApproval.stages['5a'], currentRequestInfo: currentRequestInfo}"
+                                     (promptEdit)="editPreviousStage($event)"></stage5a-component>
+
+                  <stage5b-component class="uk-card uk-card-body uk-card-basic-info uk-margin-left"
+                                     *ngIf="currentRequestInfo['5b'].showStage > 1"
+                                     [data]="{currentStage: currentRequestApproval.stages['5b'], currentRequestInfo: currentRequestInfo}"
+                                     (promptEdit)="editPreviousStage($event)"></stage5b-component>
+
+                  <stage6-component class="uk-card uk-card-body uk-card-basic-info uk-margin-left"
+                                    *ngIf="currentRequestInfo['6'].showStage > 1"
+                                    [data]="{currentStage: currentRequestApproval.stages['6'], currentRequestInfo: currentRequestInfo}"
+                                    (promptEdit)="editPreviousStage($event)"></stage6-component>
+
+                </div>
+
+                  <!-- Form for editing previous stage -->
+                  <div class="uk-margin-medium-top" data-html2canvas-ignore
+                       *ngIf="(currentRequestInfo.previousStage) &&
+                              (currentRequestInfo.previousStage !== '1') &&
+                              (currentRequestInfo[currentRequestInfo.previousStage].showStage === 1)">
+
+                    <app-stage-loader [stage]="prevStageLoaderAnchorItem"
+                                      (emitStage)="getSubmittedStage($event)"
+                                      (newValues)="getNewSupplierAndAmount($event)"
+                                      (promptEdit)="editPreviousStage($event)"></app-stage-loader>
+
+                  </div>
+
+                  <!-- Form of pending stage -->
+                  <div class="uk-margin-medium-top " data-html2canvas-ignore
+                       *ngIf="(currentRequestApproval.baseInfo.stage !== '1') &&
+                              (currentRequestInfo[currentRequestApproval.baseInfo.stage].showStage === 1)">
+
+                      <app-stage-loader [stage]="stageLoaderAnchorItem"
+                                        (emitStage)="getSubmittedStage($event)"
+                                        (newValues)="getNewSupplierAndAmount($event)"></app-stage-loader>
+
+                  </div>
+
+                <!-- Message to a simpleUser when the request is pending -->
+                <div *ngIf="isSimpleUser && (currentRequestApproval.baseInfo.stage !== '1')"
+                     class="uk-alert uk-alert-primary uk-text-center uk-margin-top">
+                  Το αίτημά σας {{ stateNames[currentRequestApproval.requestStatus] }}.
+                </div>
+
+                <!-- Message to user -->
+                <div *ngIf=" !isSimpleUser &&
+                             ((currentRequestApproval.requestStatus === 'ACCEPTED') ||
+                              (currentRequestApproval.requestStatus === 'REJECTED') ||
+                              (currentRequestApproval.requestStatus === 'CANCELLED'))"
+                     class="uk-alert uk-alert-primary uk-text-center uk-margin-top">
+                  Το αίτημα {{ stateNames[currentRequestApproval.requestStatus] }}.
+                </div>
+
+                <div *ngIf="(currentRequestApproval.baseInfo.status === 'ACCEPTED') &&
+                            (currentRequestApproval.type !== 'CONTRACT')" class="uk-margin-top" data-html2canvas-ignore>
+                  <hr>
+
+                    <!-- Create Payment button JUST FOR ADMINS -->
+                    <!-- Should NOT be needed - normally the first payment is created on the approval's completion -->
+                    <div *ngIf="(!currentRequestPayments || (currentRequestPayments.length === 0)) && userIsAdmin()"
+                         class="uk-margin-top">
+
+                        <button class="uk-button uk-button-primary" style="min-width: 200px"
+                                (click)="createRequestPayment()">Προσθήκη Περαίωσης</button>
+                    </div>
+
+                    <div *ngIf="(currentRequestPayments && (currentRequestPayments.length > 0))">
+
+                      <!-- Payments list -->
+                      <div *ngIf="(currentRequestApproval.type === 'SERVICES_CONTRACT')" class="" data-html2canvas-ignore>
+
+                        <div>
+                          <h4>Περαιώσεις του αιτήματος</h4>
+                          <div class="uk-width-1-1 uk-overflow-auto uk-scrollspy-inview uk-animation-slide-top-medium uk-margin-top uk-margin-bottom">
+                            <table class="uk-table uk-table-hover uk-table-divider">
+                              <thead>
+                                <tr>
+                                  <th>Ημερομηνία Δημιουργίας</th>
+                                  <th>Στάδιο</th>
+                                  <th>Κατάσταση</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr class="uk-link" *ngFor="let payment of currentRequestPayments"
+                                    [routerLink]="['/requests/request-stage-payment', payment.id]"
+                                    title="Μετάβαση στην σελίδα της περαίωσης">
+                                  <td>{{ payment.creationDate | date : 'dd-MM-yyyy' }}</td>
+                                  <td>{{ stagesMap[payment.stage] }}</td>
+                                  <td>{{ getStatusAsString(payment.status) }}</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+
+                        <div *ngIf="( userIsRequester() || userIsAdmin() || userIsOnBehalfUser() ) && (currentRequestApproval.requestStatus === 'PENDING')">
+                            <button class="uk-button uk-button-primary" style="min-width: 200px;" type="button"
+                                    (click)="createRequestPayment()">
+                              Προσθήκη Νέας Περαίωσης</button>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+              </div>
+            </div>
+
+            <!-- RIGHT HELP CONTENT -->
+            <aside-help-content #rightHelperContent [position]="'right'"
+                                [ngClass]="rightHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
+            </aside-help-content>
+
+          </div>
+        </div>
+
+
+        <!-- BOTTOM HELP CONTENT -->
+        <help-content #bottomHelperContent [position]="'bottom'"
+                      [ngClass]="bottomHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+        </help-content>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div *ngIf="currentRequestApproval" id="cancellationModal" uk-modal>
+  <div class="uk-modal-dialog uk-modal-body">
+    <h4 class="uk-modal-title uk-h4">Επιβεβαίωση ακύρωσης</h4>
+    <div class="uk-modal-body">
+      Είστε βέβαιοι ότι επιθυμείτε να ακυρώσετε το αίτημα<br>με αρ.πρωτ.{{ currentRequestApproval.baseInfo.requestId }};
+    </div>
+    <button class="uk-button uk-button-danger uk-margin-small-right" (click)="confirmedCancel()">Ακύρωση αιτήματος</button>
+    <button class="uk-button uk-button-default uk-modal-close">Κλείσιμο</button>
+  </div>
+</div>
