@@ -11,6 +11,7 @@ import { ForbiddenPageComponent } from './shared/403-forbidden-page.component';
 import { RequestStagePaymentComponent } from './request-stage/request-stage-payment/request-stage-payment.component';
 import { CallHelpdeskPageComponent } from './error-pages/call-helpdesk-page.component';
 import { NewBudgetComponent } from './new-budget/new-budget.component';
+import { BudgetsComponent } from './budgets/budgets.component';
 
 const appRoutes: Routes = [
   {
@@ -28,11 +29,6 @@ const appRoutes: Routes = [
     component: NewRequestComponent
   },
   {
-    path: 'new-budget',
-    canActivate: [AuthGuardService],
-    component: NewBudgetComponent
-  },
-  {
     path: 'requests',
     canActivate: [AuthGuardService],
     children: [
@@ -40,6 +36,16 @@ const appRoutes: Routes = [
         { path: 'request-stage/:id', component: RequestStageComponent },
         { path: 'request-stage-payment/:id', component: RequestStagePaymentComponent }
       ]
+  },
+  {
+    path: 'new-budget',
+    canActivate: [AuthGuardService],
+    component: NewBudgetComponent
+  },
+  {
+    path: 'budgets',
+    canActivate: [AuthGuardService],
+    component: BudgetsComponent
   },
   {
     path: 'about',

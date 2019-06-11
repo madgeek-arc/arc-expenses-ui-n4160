@@ -35,6 +35,9 @@ import { RequestStagePaymentComponent } from './request-stage/request-stage-paym
 import { CallHelpdeskPageComponent } from './error-pages/call-helpdesk-page.component';
 import { NewBudgetComponent } from './new-budget/new-budget.component';
 import { ManageBudgetsService } from './services/manage-budgets.service';
+import { BudgetComponent } from './budget/budget.component';
+import { BudgetStage1FormComponent } from './budget/budget-stage1-form.component';
+import { BudgetsComponent } from './budgets/budgets.component';
 
 registerLocaleData(localeEL);
 
@@ -69,6 +72,9 @@ const stagesList = [
         RequestStagePaymentComponent,
         Stage1FormComponent,
         NewBudgetComponent,
+        BudgetsComponent,
+        BudgetComponent,
+        BudgetStage1FormComponent,
         StagesLoaderComponent,
         ForbiddenPageComponent,
         CallHelpdeskPageComponent,

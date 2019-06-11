@@ -138,7 +138,7 @@ export class NewBudgetComponent implements OnInit {
                     () => {
                         this.errorMessage = '';
                         this.showSpinner = false;
-                        // this.router.navigate(['/budgets']);
+                        this.router.navigate(['/budgets']);
                     }
                 );
             }

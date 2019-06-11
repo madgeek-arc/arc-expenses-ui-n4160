@@ -95,7 +95,7 @@
                             <input class="uk-checkbox" type="checkbox" id="selectAllTypes" [checked]="allTypesSelected"
                                    (change)="toggleSearchAllTypes($event)">&nbsp;&nbsp;Τύπος</label>
                         <div *ngFor="let reqtype of requestTypeIds; let type_i = index">
-                            <div [formGroupName]="type_i">
+                            <div [formGroupName]="type_i.toString()">
                                 <label for="type_{{ type_i }}">
                                     <input class="uk-checkbox" type="checkbox" formControlName="type" id="type_{{ type_i }}"
                                            (change)="chooseType()">
@@ -148,7 +148,7 @@
                            <input class="uk-checkbox" type="checkbox" id="selectAllStages" [checked]="allStagesSelected"
                                   (change)="toggleSearchAllStages($event)">&nbsp;&nbsp;Στάδιο</label>
                        <div *ngFor="let stage of filtersForm.controls['stageChoices'].controls; let stage_i = index">
-                           <div [formGroupName]="stage_i">
+                           <div [formGroupName]="stage_i.toString()">
                                <label for="stage_{{ stage_i }}">
                                    <input class="uk-checkbox" type="checkbox" formControlName="stage" id="stage_{{ stage_i }}"
                                           (change)="chooseStage()">

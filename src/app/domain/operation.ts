@@ -268,7 +268,7 @@ export class YearlyBudget {
     year: number;
     submittedBy: User;
     creationDate: number;
-    status: Status;
+    budgetStatus: Status;
     stage: string;
     regularAmount: number;
     contractAmount: number;
@@ -281,4 +281,18 @@ export class YearlyBudget {
     stage6: Stage6;
     boardDecision: Attachment;
     technicalReport: Attachment;
+}
+
+
+export class YearlyBudgetSummary {
+    id: string;
+    projectId: string;
+    projectAcronym: string;
+    instituteName: string;
+    year: number;
+    submittedBy: User;
+    creationDate: number;
+    budgetStatus: Status;
+    stage: string;
+    canEdit: boolean;
 }

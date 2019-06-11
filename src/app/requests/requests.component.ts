@@ -6,8 +6,6 @@ import { Paging } from '../domain/extraClasses';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { approvalStages, paymentStages, requestTypes, stageTitles, statesList } from '../domain/stageDescriptions';
-import { ManageResourcesService } from '../services/manage-resources.service';
-import { ManageProjectService } from '../services/manage-project.service';
 
 @Component({
     selector: 'app-requests',
@@ -63,8 +61,6 @@ export class RequestsComponent implements OnInit {
     listOfRequests: RequestSummary[] = [];
 
     constructor(private requestService: ManageRequestsService,
-                private resourceService: ManageResourcesService,
-                private projectService: ManageProjectService,
                 private authService: AuthenticationService,
                 private router: Router,
                 private route: ActivatedRoute,
