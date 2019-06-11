@@ -283,8 +283,20 @@ export class YearlyBudget {
     technicalReport: Attachment;
 }
 
-
 export class YearlyBudgetSummary {
+    id: string;
+    projectId: string;
+    projectAcronym: string;
+    instituteName: string;
+    year: number;
+    submittedByFullName: string;
+    creationDate: number;
+    budgetStatus: Status;
+    stage: string;
+    canEdit: boolean;
+}
+
+export class BudgetResponse {
     id: string;
     projectId: string;
     projectAcronym: string;
@@ -294,5 +306,17 @@ export class YearlyBudgetSummary {
     creationDate: number;
     budgetStatus: Status;
     stage: string;
+    regularAmount: number;
+    contractAmount: number;
+    tripAmount: number;
+    servicesContractAmount: number;
+    comment: string;
+    stage2: Stage2;
+    stage4: Stage4;
+    stage5a: Stage5a;
+    stage6: Stage6;
+    boardDecision: Attachment;
+    technicalReport: Attachment;
     canEdit: boolean;
+    canEditPrevious: boolean;
 }

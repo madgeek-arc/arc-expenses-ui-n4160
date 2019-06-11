@@ -147,32 +147,10 @@
                                     [data]="{currentStage: currentRequestApproval.stages['3'], currentRequestInfo: currentRequestInfo}"
                                     (promptEdit)="editPreviousStage($event)"></stage3-component>
 
-                  <stage4-component class="uk-card uk-card-body uk-card-basic-info uk-margin-left"
-                                    *ngIf="currentRequestInfo['4'].showStage > 1"
-                                    [data]="{currentStage: currentRequestApproval.stages['4'], currentRequestInfo: currentRequestInfo}"
-                                    (promptEdit)="editPreviousStage($event)"></stage4-component>
-
-                </div>
-
-
-
-                <div class="uk-child-width-expand uk-grid" uk-grid
-                     *ngIf="(currentRequestInfo['5a'].showStage > 1) || (currentRequestInfo['5b'].showStage > 1) || (currentRequestInfo['6'].showStage > 1)">
-
-                  <stage5a-component class="uk-card uk-card-body uk-card-basic-info uk-margin-left"
-                                     *ngIf="currentRequestInfo['5a'].showStage > 1"
-                                     [data]="{currentStage: currentRequestApproval.stages['5a'], currentRequestInfo: currentRequestInfo}"
-                                     (promptEdit)="editPreviousStage($event)"></stage5a-component>
-
                   <stage5b-component class="uk-card uk-card-body uk-card-basic-info uk-margin-left"
                                      *ngIf="currentRequestInfo['5b'].showStage > 1"
                                      [data]="{currentStage: currentRequestApproval.stages['5b'], currentRequestInfo: currentRequestInfo}"
                                      (promptEdit)="editPreviousStage($event)"></stage5b-component>
-
-                  <stage6-component class="uk-card uk-card-body uk-card-basic-info uk-margin-left"
-                                    *ngIf="currentRequestInfo['6'].showStage > 1"
-                                    [data]="{currentStage: currentRequestApproval.stages['6'], currentRequestInfo: currentRequestInfo}"
-                                    (promptEdit)="editPreviousStage($event)"></stage6-component>
 
                 </div>
 

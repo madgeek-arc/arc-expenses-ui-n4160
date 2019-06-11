@@ -12,6 +12,7 @@ import { RequestStagePaymentComponent } from './request-stage/request-stage-paym
 import { CallHelpdeskPageComponent } from './error-pages/call-helpdesk-page.component';
 import { NewBudgetComponent } from './new-budget/new-budget.component';
 import { BudgetsComponent } from './budgets/budgets.component';
+import { BudgetComponent } from './budget/budget.component';
 
 const appRoutes: Routes = [
   {
@@ -45,7 +46,10 @@ const appRoutes: Routes = [
   {
     path: 'budgets',
     canActivate: [AuthGuardService],
-    component: BudgetsComponent
+    children: [
+        { path: '', component: BudgetsComponent },
+        { path: 'budget/:id', component: BudgetComponent }
+      ]
   },
   {
     path: 'about',

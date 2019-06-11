@@ -196,7 +196,6 @@
                                                 <table class="uk-table uk-table-hover uk-table-divider">
                                                     <thead>
                                                     <tr>
-                                                        <th></th>
                                                         <th>Αρ.Πρωτ.</th>
                                                         <th><a class="uk-margin-small-right" title="Ταξινόμηση με βάση το ακρώνυμο του έργου"
                                                                (click)="sortBy('request_project_acronym')">
@@ -227,6 +226,13 @@
                                                             </div>
 
                                                         </th>
+                                                        <th><a title="Ταξινόμηση με βάση το έτος"
+                                                               (click)="sortBy('year')">
+                                                            Ημ/νια&nbsp;
+                                                            <span *ngIf="orderField && (orderField === 'year')"
+                                                                  [innerHtml]="getOrderSign()"></span>
+                                                        </a>
+                                                        </th>
 
                                                         <th>
                                                             Αιτων
@@ -238,10 +244,10 @@
                                                                                  (emitSearchTerm)="addExtraFilter($event)"></dropdown-search>
                                                             </div>
                                                         </th>
-                                                        <th><a title="Ταξινόμηση με βάση το έτος"
-                                                               (click)="sortBy('year')">
+                                                        <th><a title="Ταξινόμηση με βάση την ημερομηνία υποβολής"
+                                                               (click)="sortBy('creation_date')">
                                                             Ημ/νια&nbsp;
-                                                            <span *ngIf="orderField && (orderField === 'year')"
+                                                            <span *ngIf="orderField && (orderField === 'creation_date')"
                                                                   [innerHtml]="getOrderSign()"></span>
                                                         </a>
                                                         </th>
@@ -257,8 +263,9 @@
                                                         <td>{{ budget.id }}</td>
                                                         <td>{{ budget.projectAcronym }}</td>
                                                         <td>{{ budget.instituteName }}</td>
-                                                        <td>{{ budget.submittedBy }}</td>
                                                         <td>{{ budget.year }}</td>
+                                                        <td>{{ budget.submittedByFullName }}</td>
+                                                        <td>{{ budget.creationDate }}</td>
                                                         <td>{{ stagesMap[budget.stage]}}</td>
                                                         <td>{{ getStatusAsString(budget.budgetStatus.toLowerCase()) }}</td>
                                                     </tr>

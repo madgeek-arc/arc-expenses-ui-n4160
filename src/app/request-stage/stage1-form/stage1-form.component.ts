@@ -1,8 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Attachment, Request, RequestResponse, Stage5b } from '../../domain/operation';
+import { RequestResponse } from '../../domain/operation';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { requesterPositions, supplierSelectionMethodsMap } from '../../domain/stageDescriptions';
-import { ManageRequestsService } from '../../services/manage-requests.service';
 
 @Component({
     selector: 'stage1-form',

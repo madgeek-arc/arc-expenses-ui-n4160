@@ -7,7 +7,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { RequestSummary, YearlyBudget, YearlyBudgetSummary } from '../domain/operation';
+import { BudgetResponse, RequestSummary, YearlyBudget, YearlyBudgetSummary } from '../domain/operation';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { Paging } from '../domain/extraClasses';
 
@@ -51,10 +51,10 @@ export class ManageBudgetsService {
         return this.http.request(req).pipe(catchError(this.handleError));
     }
 
-    getById(budgetId: string): Observable<YearlyBudget> {
-        const url = `${this.apiUrl}getById`;
+    getById(budgetId: string): Observable<BudgetResponse> {
+        const url = `${this.apiUrl}getById/${budgetId}`;
         console.log(`calling ${url}`);
-        return this.http.get<YearlyBudget>(url, headerOptions);
+        return this.http.get<BudgetResponse>(url, headerOptions);
     }
 
     getAllBudgets(searchField: string, status: string[], stage: string[],

@@ -122,8 +122,6 @@ export class RequestStageComponent implements OnInit {
                         }
                     }
                 }
-
-                // TODO:: MAKE SURE THE canEditPrevious value is the correct one when prevStage == 6
                 if ((prevStage != null) && ((this.currentRequestApproval.canEditPrevious === true) || (this.userIsAdmin()))) {
 
                     this.currentRequestInfo.previousStage = prevStage;
@@ -427,7 +425,6 @@ export class RequestStageComponent implements OnInit {
                 this.successMessage = 'Το αίτημα ακυρώθηκε.';
                 this.showSpinner = false;
                 UIkit.modal('#cancellationModal').hide();
-                // this.router.navigate(['/requests/request-stage', this.currentRequestApproval.baseInfo.id]);
                 this.getCurrentRequest();
             }
         );
