@@ -4,7 +4,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { BudgetResponse } from '../domain/operation';
-import { budgetStages, budgetStageTitles, statusNamesMap } from '../domain/stageDescriptions';
+import { budgetStages, statusNamesMap } from '../domain/stageDescriptions';
 import { RequestInfo } from '../domain/requestInfoClasses';
 import { AnchorItem } from '../shared/dynamic-loader-anchor-components/anchor-item';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -86,7 +86,7 @@ export class BudgetComponent implements OnInit {
             },
             () => {
                 this.showSpinner = false;
-                this.currentRequestInfo = new RequestInfo(this.currentBudget.id, this.currentBudget.id);
+                this.currentRequestInfo = new RequestInfo(this.currentBudget.id, null);
                 this.findPreviousStage();
                 this.updateShowStageFields();
                 this.setCanBeCancelled();
@@ -99,17 +99,16 @@ export class BudgetComponent implements OnInit {
     findPreviousStage() {
         if (((this.currentBudget.budgetStatus === 'PENDING') || (this.currentBudget.budgetStatus === 'UNDER_REVIEW')) &&
             (this.currentBudget.stage !== '1')) {
-            const i = this.stages.indexOf(this.currentBudget.stage);
-            if (i > -1) {
-                let prevStage: string;
-                for (const p of this.currentRequestInfo[ this.stages[i] ].prev) {
-                    if (this.currentBudget['stage' + p] != null) {
-                        prevStage = p;
-                        break;
+            if (this.currentBudget.stage === '2') {
+                this.currentRequestInfo.previousStage = '1';
+            } else {
+                const i = this.stages.indexOf(this.currentBudget.stage);
+                if ((i > 0) && (this.currentBudget['stage' + this.stages[i - 1]] != null) ) {
+                    let prevStage: string;
+                    prevStage = this.stages[i - 1];
+                    if ((this.currentBudget.canEditPrevious === true) || (this.userIsAdmin())) {
+                        this.currentRequestInfo.previousStage = prevStage;
                     }
-                }
-                if ((prevStage != null) && ((this.currentBudget.canEditPrevious === true) || (this.userIsAdmin()))) {
-                    this.currentRequestInfo.previousStage = prevStage;
                 }
             }
         }
@@ -276,18 +275,6 @@ export class BudgetComponent implements OnInit {
     printBudget() {
         printRequestPage(this.currentBudget.id);
     }
-
-
-    getStatusAsString( status: string ) {
-        if ( (status === 'PENDING') || (status === 'UNDER_REVIEW') ) {
-            return 'σε εξέλιξη';
-        } else if (status === 'ACCEPTED') {
-            return 'ολοκληρωθηκε';
-        } else {
-            return 'απορρίφθηκε';
-        }
-    }
-
 
     setCanBeCancelled() {
         if (this.userIsAdmin() || this.userIsRequester()) {

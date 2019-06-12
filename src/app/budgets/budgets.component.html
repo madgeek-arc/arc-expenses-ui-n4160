@@ -238,8 +238,8 @@
                                                             Αιτων
                                                             <a class="uk-link uk-icon-link uk-margin-small-left"
                                                                uk-icon="icon: search; ratio: 1"
-                                                               uk-toggle="target: #requester" title="Αναζήτηση με το email του αιτούντα"></a>
-                                                            <div class="uk-navbar-dropdown uk-padding-small" style="display: block;" id="requester" hidden>
+                                                               uk-toggle="target: #submittedBy" title="Αναζήτηση με το email του αιτούντα"></a>
+                                                            <div class="uk-navbar-dropdown uk-padding-small" style="display: block;" id="submittedBy" hidden>
                                                                 <dropdown-search [id]="'submittedBy'"
                                                                                  (emitSearchTerm)="addExtraFilter($event)"></dropdown-search>
                                                             </div>
@@ -258,7 +258,7 @@
                                                         <td colspan="8">{{noBudgets}}</td>
                                                     </tr>
                                                     <tr class="uk-link" *ngFor="let budget of listOfBudgets"
-                                                        routerLink="/budgets/{{budget.id}}}"
+                                                        [routerLink]="['budget', budget.id]"
                                                         title="Μετάβαση στην σελίδα του αιτήματος" [style.backgroundColor]="budget.canEdit ? '#f7f7f7' : ''">
                                                         <td>{{ budget.id }}</td>
                                                         <td>{{ budget.projectAcronym }}</td>

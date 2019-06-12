@@ -76,7 +76,7 @@ export class BudgetsComponent implements OnInit {
         this.itemsPerPage = 10;
 
         this.order = 'DSC';
-        this.orderField = 'year';
+        this.orderField = 'creation_date';
         this.totalPages = 0;
 
         this.editableSelected = false;
@@ -135,15 +135,6 @@ export class BudgetsComponent implements OnInit {
             newArray.push(this.fb.group(def));
         }
         return <FormArray>newArray;
-    }
-
-    initFormArray(arrayName: string, definition: any, length: number) {
-        const formArray = <FormArray>this.filtersForm.controls[arrayName];
-        formArray.controls = [];
-        for (let i = 0; i < length; i++) {
-            formArray.push(this.fb.group(definition));
-        }
-        console.log('formArray length is', formArray.length);
     }
 
     setValueOfFormArrayControl(formArrayName: string, index: number, fieldName: string, val: any) {
