@@ -257,9 +257,10 @@
                                                     <tr *ngIf="noBudgets">
                                                         <td colspan="8">{{noBudgets}}</td>
                                                     </tr>
-                                                    <tr class="uk-link" *ngFor="let budget of listOfBudgets"
-                                                        [routerLink]="['budget', budget.id]"
-                                                        title="Μετάβαση στην σελίδα του αιτήματος" [style.backgroundColor]="budget.canEdit ? '#f7f7f7' : ''">
+                                                    <tr class="uk-link" *ngFor="let budget of listOfBudgets" routerLink="/budget/ + {{ budget.id }}"
+                                                        title="Μετάβαση στην σελίδα του προϋπολογισμού"
+                                                        [style.backgroundColor]="budget.canEdit ? '#f7f7f7' : ''">
+
                                                         <td>{{ budget.id }}</td>
                                                         <td>{{ budget.projectAcronym }}</td>
                                                         <td>{{ budget.instituteName }}</td>
