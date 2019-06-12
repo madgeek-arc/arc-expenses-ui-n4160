@@ -74,7 +74,7 @@ export class Institute {
     id: string;
     name: string;
     organizationId: string;
-    director: PersonOfInterest;
+    director: PersonOfInterest;creationDate
     accountingRegistration: PersonOfInterest;
     accountingPayment: PersonOfInterest;
     accountingDirector: PersonOfInterest;

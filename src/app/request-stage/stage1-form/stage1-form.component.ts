@@ -93,7 +93,7 @@ export class Stage1FormComponent implements OnInit {
     }
 
     updateStage1() {
-        console.log(this.updateStage1Form);
+        console.log(this.updateStage1Form.getRawValue());
         this.errorMessage = '';
         if (this.updateStage1Form.valid ) {
             if ( (+this.updateStage1Form.get('amount').value > this.lowAmountLimit) &&
@@ -179,15 +179,10 @@ export class Stage1FormComponent implements OnInit {
             this.requestedAmount = this.updateStage1Form.get('amount').value.trim();
         }
 
-        if ( (this.updateStage1Form.get('amount').value !== '') &&
-            (+this.updateStage1Form.get('amount').value > this.lowAmountLimit) &&
-            (+this.updateStage1Form.get('amount').value <= this.amountLimit) &&
-            (this.currentRequest.type === 'REGULAR') ) {
-
-            this.showWarning = true;
-        } else {
-            this.showWarning = false;
-        }
+        this.showWarning = ((this.updateStage1Form.get('amount').value !== '') &&
+                            (+this.updateStage1Form.get('amount').value > this.lowAmountLimit) &&
+                            (+this.updateStage1Form.get('amount').value <= this.amountLimit) &&
+                            (this.currentRequest.type === 'REGULAR'));
     }
 
 }

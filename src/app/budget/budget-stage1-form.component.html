@@ -1,0 +1,120 @@
+<div>
+
+    <div *ngIf="errorMessage" class="uk-alert uk-alert-danger">{{ errorMessage }}</div>
+
+    <form *ngIf="currentBudget && updateStage1Form" [formGroup]="updateStage1Form"
+          class="uk-margin-bottom uk-width-1-1 uk-grid">
+
+        <div class="uk-width-1-2@l">
+            <span class="uk-text-bold uk-margin-small-right">Έργο:</span>
+            <span *ngIf="currentBudget.projectAcronym">
+                {{ currentBudget.projectAcronym }} ({{currentBudget.instituteName}})
+            </span>
+        </div>
+        <div class="uk-width-1-2@l">
+            <span class="uk-text-bold uk-margin-small-right">Έτος: </span>
+            <span *ngIf="currentBudget.year">{{ currentBudget.year}}</span>
+        </div>
+        <div class="uk-width-1-2@l">
+            <span class="uk-text-bold uk-margin-small-right">Ημερομηνία υποβολής:</span>
+            <span>{{ currentBudget.creationDate | date : 'dd-MM-yyyy' }}</span>
+        </div>
+        <div class="uk-width-1-2@l">
+            <span class="uk-text-bold uk-margin-small-right">Από:</span>
+            <span>{{ currentBudget.submittedBy.firstname }} {{ currentBudget.submittedBy.lastname }}</span>
+        </div>
+        <div class="uk-width-1-1@l">
+            <span class="uk-text-bold uk-margin-small-right">Κατανομή δαπανών (*)</span>
+        </div>
+        <div class="uk-width-1-2@l">
+            <label class="uk-text-bold uk-margin-small-right" for="regularAmount">Προμήθειες: </label>
+            <input id="regularAmount" class="uk-input" type="text"
+                   formControlName="regularAmount" placeholder="0" (keyup)="showAmount('regularAmount')">
+            <div *ngIf="updateStage1Form.get('regularAmount').invalid &&
+                        updateStage1Form.get('regularAmount').touched &&
+                        updateStage1Form.get('regularAmount').dirty"
+                 class="uk-comment-body uk-text-small uk-text-danger">
+
+                Ο αριθμός δεν είναι έγκυρος.
+            </div>
+            <div *ngIf="amountsByType['regularAmount']" class="uk-comment-body uk-text-small uk-text-muted">
+                Το ποσό είναι: <span class="uk-text-bold">{{ amountsByType['regularAmount'] | currency: 'EUR': 'symbol-narrow' }}</span>
+            </div>
+        </div>
+        <div class="uk-width-1-2@l">
+            <label class="uk-text-bold uk-margin-small-right" for="contractAmount">Συμβάσεις έργου: </label>
+            <input id="contractAmount" class="uk-input" type="text"
+                   formControlName="contractAmount" placeholder="0" (keyup)="showAmount('contractAmount')">
+            <div *ngIf="updateStage1Form.get('contractAmount').invalid &&
+                        updateStage1Form.get('contractAmount').touched &&
+                        updateStage1Form.get('contractAmount').dirty"
+                 class="uk-comment-body uk-text-small uk-text-danger">
+
+                Ο αριθμός δεν είναι έγκυρος.
+            </div>
+            <div *ngIf="amountsByType['contractAmount']" class="uk-comment-body uk-text-small uk-text-muted">
+                Το ποσό είναι: <span class="uk-text-bold">{{ amountsByType['contractAmount'] | currency: 'EUR': 'symbol-narrow' }}</span>
+            </div>
+        </div>
+        <div class="uk-width-1-2@l">
+            <label class="uk-text-bold uk-margin-small-right" for="tripAmount">Ταξίδια: </label>
+            <input id="tripAmount" class="uk-input" type="text"
+                   formControlName="tripAmount" placeholder="0" (keyup)="showAmount('tripAmount')">
+            <div *ngIf="updateStage1Form.get('tripAmount').invalid &&
+                        updateStage1Form.get('tripAmount').touched &&
+                        updateStage1Form.get('tripAmount').dirty"
+                 class="uk-comment-body uk-text-small uk-text-danger">
+
+                Ο αριθμός δεν είναι έγκυρος.
+            </div>
+            <div *ngIf="amountsByType['tripAmount']" class="uk-comment-body uk-text-small uk-text-muted">
+                Το ποσό είναι: <span class="uk-text-bold">{{ amountsByType['tripAmount'] | currency: 'EUR': 'symbol-narrow' }}</span>
+            </div>
+        </div>
+        <div class="uk-width-1-2@l">
+            <label class="uk-text-bold uk-margin-small-right" for="servicesContractAmount">Συμβάσεις Υπηρεσίας: </label>
+            <input id="servicesContractAmount" class="uk-input" type="text"
+                   formControlName="servicesContractAmount" placeholder="0" (keyup)="showAmount('servicesContractAmount')">
+            <div *ngIf="updateStage1Form.get('servicesContractAmount').invalid &&
+                        updateStage1Form.get('servicesContractAmount').touched &&
+                        updateStage1Form.get('servicesContractAmount').dirty"
+                 class="uk-comment-body uk-text-small uk-text-danger">
+
+                Ο αριθμός δεν είναι έγκυρος.
+            </div>
+            <div *ngIf="amountsByType['servicesContractAmount']" class="uk-comment-body uk-text-small uk-text-muted">
+                Το ποσό είναι: <span class="uk-text-bold">{{ amountsByType['servicesContractAmount'] | currency: 'EUR': 'symbol-narrow' }}</span>
+            </div>
+        </div>
+
+        <div class="uk-width-1-1@l">
+            <label class="uk-text-bold uk-margin-small-right">Σχόλια:</label>
+            <textarea class="uk-textarea" rows="3" formControlName="comment"></textarea>
+        </div>
+
+        <div class="uk-width-1-1@l">
+            <span class="uk-text-bold uk-margin-small-right">Απόφαση Δ.Σ. (*)</span>
+        </div>
+        <div *ngIf="boardDecisionName" class="uk-width-1-1@l">
+            <div class="uk-form-controls uk-form-controls-text">
+                <app-form-upload-file [uploadedFilename]="boardDecisionName"
+                                      (emitFile)="getBoardDecisionFile($event)"></app-form-upload-file>
+            </div>
+        </div>
+
+        <div class="uk-width-1-1@l">
+            <span class="uk-text-bold uk-margin-small-right">Τεχνικό Δελτίο (*)</span>
+        </div>
+        <div *ngIf="technicalReportName" class="uk-width-1-1@l">
+            <div class="uk-form-controls uk-form-controls-text">
+                <app-form-upload-file [uploadedFilename]="technicalReportName"
+                                      (emitFile)="getTechnicalReportFile($event)"></app-form-upload-file>
+            </div>
+        </div>
+
+        <div class="uk-width-1-1\@l">
+            <button class="uk-button uk-button-primary" (click)="updateStage1()">Αποθήκευση αλλαγών</button>
+        </div>
+    </form>
+
+</div>

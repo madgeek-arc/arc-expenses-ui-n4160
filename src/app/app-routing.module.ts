@@ -46,10 +46,12 @@ const appRoutes: Routes = [
   {
     path: 'budgets',
     canActivate: [AuthGuardService],
-    children: [
-        { path: '', component: BudgetsComponent },
-        { path: 'budget/:id', component: BudgetComponent }
-      ]
+    component: BudgetsComponent
+  },
+  {
+    path: 'budget/:id',
+    canActivate: [AuthGuardService],
+    component: BudgetComponent
   },
   {
     path: 'about',

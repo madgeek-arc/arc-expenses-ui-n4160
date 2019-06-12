@@ -28,7 +28,6 @@ export class BudgetComponent implements OnInit {
     budgetId: string;
     currentBudget: BudgetResponse;
     stages: string[] = budgetStages;
-    stagesMap = budgetStageTitles;
     stateNames = statusNamesMap;
 
     currentRequestInfo: RequestInfo;
@@ -87,7 +86,7 @@ export class BudgetComponent implements OnInit {
             },
             () => {
                 this.showSpinner = false;
-                this.currentRequestInfo = new RequestInfo(this.currentBudget.id, '');
+                this.currentRequestInfo = new RequestInfo(this.currentBudget.id, this.currentBudget.id);
                 this.findPreviousStage();
                 this.updateShowStageFields();
                 this.setCanBeCancelled();
