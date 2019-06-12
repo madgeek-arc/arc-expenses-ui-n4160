@@ -265,7 +265,7 @@
                                                         <td>{{ budget.instituteName }}</td>
                                                         <td>{{ budget.year }}</td>
                                                         <td>{{ budget.submittedByFullName }}</td>
-                                                        <td>{{ budget.creationDate }}</td>
+                                                        <td>{{ budget.creationDate | date : 'dd-MM-yyyy' }}</td>
                                                         <td>{{ stagesMap[budget.stage]}}</td>
                                                         <td>{{ getStatusAsString(budget.budgetStatus.toLowerCase()) }}</td>
                                                     </tr>
