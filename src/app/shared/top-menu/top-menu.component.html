@@ -43,12 +43,14 @@
                                 Αιτήματα
                             </a>
                         </li>
-                        <li class="uk-parent" [routerLinkActive]="['uk-active']">
+                        <li *ngIf="isAdmin || isOperator"
+                            class="uk-parent" [routerLinkActive]="['uk-active']">
                             <a [routerLink]="['new-budget']">
                                 Προσθήκη προϋπολογισμού
                             </a>
                         </li>
-                        <li class="uk-parent" [routerLinkActive]="['uk-active']">
+                        <li *ngIf="isAdmin || isOperator || isExecutive"
+                            class="uk-parent" [routerLinkActive]="['uk-active']">
                             <a [routerLink]="['budgets']">
                                 Δαπάνες έργων
                             </a>
@@ -180,12 +182,14 @@
                                     Αιτήματα
                                 </a>
                             </li>
-                            <li class="uk-parent" [routerLinkActive]="['uk-active']">
+                            <li *ngIf="isAdmin || isOperator"
+                                class="uk-parent" [routerLinkActive]="['uk-active']">
                                 <a [routerLink]="['new-budget']">
                                     Προσθήκη προϋπολογισμού
                                 </a>
                             </li>
-                            <li class="uk-parent" [routerLinkActive]="['uk-active']">
+                            <li *ngIf="isAdmin || isOperator || isExecutive"
+                                class="uk-parent" [routerLinkActive]="['uk-active']">
                                 <a [routerLink]="['new-budget']">
                                     Δαπάνες έργων
                                 </a>
