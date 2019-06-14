@@ -33,7 +33,7 @@ export class ManageRequestsService {
             reportProgress: true,
             withCredentials: true
         });
-        return this.http.request(req).pipe(catchError(this.handleError));
+        return this.http.request(req);
     }
 
     submitUpdate<T>(phase: string, mode: string, requestId: string, submittedStage?: FormData): Observable<HttpEvent<T>> {
@@ -49,7 +49,7 @@ export class ManageRequestsService {
             reportProgress: true,
             withCredentials: true
         });
-        return this.http.request(req).pipe(catchError(this.handleError));
+        return this.http.request(req);
     }
 
     cancelRequestPayment(paymentId: string, cancelRequest: boolean): Observable<any> {
@@ -61,9 +61,7 @@ export class ManageRequestsService {
 
         // returns json of the form {id: paymentID}
         const req = new HttpRequest('POST', url, formData, { withCredentials: true });
-        return this.http.request<any>(req).pipe(
-            catchError(this.handleError)
-        );
+        return this.http.request<any>(req);
     }
 
     addRequestPayment(requestId: string): Observable<any> {
@@ -71,10 +69,7 @@ export class ManageRequestsService {
         console.log(`calling ${url}`);
         console.log(`sending ${JSON.stringify(requestId)}`);
 
-        return this.http.post<any>(url, {}, headerOptions)
-            .pipe(
-                catchError(this.handleError)
-            );
+        return this.http.post<any>(url, {}, headerOptions);
     }
 
     getRequestApprovalById(requestApproval: string): Observable<RequestResponse> {
@@ -115,9 +110,7 @@ export class ManageRequestsService {
         }
 
         console.log(`calling ${url}`);
-        return this.http.get<Paging<RequestSummary>>(url, headerOptions).pipe(
-            catchError(this.handleError)
-        );
+        return this.http.get<Paging<RequestSummary>>(url, headerOptions);
     }
 
     sendContactFormToService(params: ContactUsMail): Observable<any> {
@@ -125,26 +118,6 @@ export class ManageRequestsService {
         console.log(`calling ${url}`);
         console.log(`sending ${JSON.stringify(params)}`);
 
-        return this.http.post<any>(url, JSON.stringify(params), headerOptions).pipe(
-            catchError(this.handleError)
-        );
-    }
-
-    /*handleError function as provided by angular.io (copied on 27/4/2018)*/
-    private handleError(error: HttpErrorResponse) {
-        console.log(error);
-        if (error.error instanceof ErrorEvent) {
-            // A client-side or network error occurred. Handle it accordingly.
-            console.error('An error occurred:', error.error.message);
-        } else {
-            // The backend returned an unsuccessful response code.
-            // The response body may contain clues as to what went wrong,
-            console.error(
-                `Backend returned code ${error.status}, ` +
-                `body was: ${error.error}`);
-        }
-        // return an ErrorObservable with a user-facing error message
-        return new ErrorObservable(
-            'Something bad happened; please try again later.');
+        return this.http.post<any>(url, JSON.stringify(params), headerOptions);
     }
 }

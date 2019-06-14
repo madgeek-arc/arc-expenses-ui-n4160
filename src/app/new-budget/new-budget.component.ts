@@ -130,12 +130,7 @@ export class NewBudgetComponent implements OnInit {
                         }
                     },
                     error => {
-                        console.log(error);
-                        if (error.body.error.includes('A year budget for this project already exists')) {
-                            this.errorMessage = 'Ο προϋπολογισμός του έργου για το ' + newBudget.get('year') + ' έχει ήδη κατατεθεί.';
-                        } else {
-                            this.errorMessage = 'Παρουσιάστηκε πρόβλημα με την υποβολή της φόρμας.';
-                        }
+                        this.errorMessage = error.error.error;
                         this.showSpinner = false;
                         window.scroll(1, 1);
                     },

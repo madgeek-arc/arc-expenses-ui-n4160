@@ -32,9 +32,9 @@
 
                                 <!--1st stage-->
                                 <div *ngIf="showStage1" class="submittedRequest">
-                                    <div *ngIf="currentRequestInfo.previousStage && (currentRequestInfo.previousStage === '1')">
+                                    <div *ngIf="userIsRequester() || userIsAdmin()">
                                         <button class="uk-button uk-button-small uk-button-primary" style="border-radius: 3px !important;"
-                                                (click)="editStage1()">Επεξεργασία</button>
+                                                (click)="editStage1(true)">Επεξεργασία</button>
                                     </div>
                                     <div class="uk-margin-bottom uk-width-1-1 uk-grid">
                                         <div class="uk-width-1-2@l">
@@ -56,8 +56,8 @@
                                             <span>{{ currentBudget.submittedBy.firstname }} {{ currentBudget.submittedBy.lastname }}</span>
                                         </div>
 
-                                        <div class="uk-width-1-1@l">
-                                          <span class="uk-text-bold uk-margin-small-right">Κατανομή δαπανών</span>
+                                        <div class="uk-width-1-1@l uk-margin-top">
+                                            <span class="uk-text-bold uk-margin-small-right uk-text-uppercase"><u>Κατανομή δαπανών</u></span>
                                         </div>
                                         <div *ngIf="currentBudget.regularAmount" class="uk-width-1-2@l">
                                             <span class="uk-text-bold uk-margin-small-right">Προμήθειες:</span>
@@ -76,7 +76,7 @@
                                             <span>{{ currentBudget.servicesContractAmount | currency: 'EUR': 'symbol-narrow' }}</span>
                                         </div>
 
-                                        <div class="uk-width-1-1@l">
+                                        <div *ngIf="currentBudget.comment" class="uk-width-1-1@l">
                                             <span class="uk-text-bold uk-margin-small-right">Σχόλια:</span>
                                             <span>{{ currentBudget.comment }}</span>
                                         </div>
@@ -96,7 +96,8 @@
                                 <!-- stage 1 form -->
                                 <div *ngIf="!showStage1" data-html2canvas-ignore>
                                     <app-budget-stage1 [currentBudget]="currentBudget"
-                                                       (emitBudget)="getUpdatedBudget($event)"></app-budget-stage1>
+                                                       (emitBudget)="getUpdatedBudget($event)"
+                                                       (emitCloseForm)="editStage1($event)"></app-budget-stage1>
                                 </div>
 
                                 <!--end of 1st stage-->

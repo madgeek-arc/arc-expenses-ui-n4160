@@ -114,6 +114,8 @@
 
         <div class="uk-width-1-1\@l">
             <button class="uk-button uk-button-primary" (click)="updateStage1()">Αποθήκευση αλλαγών</button>
+            <button *ngIf="(currentBudget.stage !== '1') && (currentBudget.stage !== '2')"
+                    class="uk-button uk-button-default" (click)="closeForm()">Κλείσιμο</button>
         </div>
     </form>
 

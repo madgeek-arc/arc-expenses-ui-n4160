@@ -26,7 +26,7 @@ export class BudgetsComponent implements OnInit {
         rejected: 'Απορριφθέντα', accepted: 'Ολοκληρωθέντα', cancelled: 'Ακυρωθέντα'};
     stages: string[] = [];
     stagesMap = budgetStageTitles;
-    extraFiltersTranslation = {projectAcronym: 'έργο', institute: 'ινστιτούτο/μονάδα', submittedBy: 'χειριστής'};
+    extraFiltersTranslation = {projectAcronym: 'έργο', institute: 'ινστιτούτο/μονάδα', submittedBy: 'χειριστής', year: 'έτος'};
 
     /* flags */
     editableSelected: boolean;

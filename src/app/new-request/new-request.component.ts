@@ -223,9 +223,9 @@ export class NewRequestComponent implements OnInit {
                             console.log('final event:', event.body);
                         }
                     },
-                    error => {
-                        console.log(error);
-                        this.errorMessage = 'Παρουσιάστηκε πρόβλημα με την υποβολή της φόρμας.';
+                    er => {
+                        console.log('er is', er.error.error);
+                        this.errorMessage = er.error.error;
                         this.showSpinner = false;
                         window.scroll(1, 1);
                     },

@@ -19,6 +19,8 @@ export class BudgetStage1FormComponent implements OnInit {
      * in order to call the api and update the request */
     @Output() emitBudget: EventEmitter<FormData> = new EventEmitter<FormData>();
 
+    @Output() emitCloseForm: EventEmitter<Boolean> = new EventEmitter<Boolean>();
+
     updateStage1Form: FormGroup;
     formDefinition = {
         regularAmount: ['', [Validators.min(0), Validators.pattern('^\\d+(\\.\\d{1,2})?$')]],
@@ -47,6 +49,8 @@ export class BudgetStage1FormComponent implements OnInit {
                 this.updateStage1Form.patchValue({[ key ]: this.currentBudget[ key ]});
             }
         );
+        this.boardDecisionName = this.currentBudget.boardDecision.filename;
+        this.technicalReportName = this.currentBudget.technicalReport.filename;
     }
 
     getBoardDecisionFile(file: File) {
@@ -106,7 +110,10 @@ export class BudgetStage1FormComponent implements OnInit {
             this.amountsByType[fieldName] = this.updateStage1Form.get(fieldName).value.trim();
         }
 
-        this.boardDecisionName = this.currentBudget.boardDecision.filename;
-        this.technicalReportName = this.currentBudget.technicalReport.filename;
     }
+
+    closeForm() {
+        this.emitCloseForm.emit(false);
+    }
+
 }

@@ -123,6 +123,7 @@ export class BudgetComponent implements OnInit {
             (this.currentRequestInfo.previousStage === '1')) {
             this.updateBudget('edit', updatedBudget);
         } else {
+            // TODO:: CHECK WHAT TO SEND WHEN IN EDIT MODE BUT BUDGET IS ACCEPTED
             this.updateBudget('approve', updatedBudget);
         }
     }
@@ -163,8 +164,8 @@ export class BudgetComponent implements OnInit {
         this.showStage1 = (this.willShowStage('1') === 2);
     }
 
-    editStage1() {
-        this.showStage1 = false;
+    editStage1(showForm: boolean) {
+        this.showStage1 = !showForm;
     }
 
     editPreviousStage(showForm: boolean) {
