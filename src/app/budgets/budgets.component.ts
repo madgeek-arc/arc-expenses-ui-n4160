@@ -128,6 +128,9 @@ export class BudgetsComponent implements OnInit {
             stageChoices: this.createFormArray({stage: [false]}, this.stages.length),
         });
     }
+    get stageChoices(): FormArray {
+        return this.filtersForm.get('stageChoices') as FormArray;
+    }
 
     createFormArray(def: any, length: number) {
         const newArray = this.fb.array([]);

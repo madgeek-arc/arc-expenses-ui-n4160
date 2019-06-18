@@ -147,7 +147,7 @@
                        <label class="filterLabel uk-text-bold uk-margin-large-bottom" for="selectAllStages">
                            <input class="uk-checkbox" type="checkbox" id="selectAllStages" [checked]="allStagesSelected"
                                   (change)="toggleSearchAllStages($event)">&nbsp;&nbsp;Στάδιο</label>
-                       <div *ngFor="let stage of filtersForm.controls['stageChoices'].controls; let stage_i = index">
+                       <div *ngFor="let stage of stageChoices.controls; let stage_i = index">
                            <div [formGroupName]="stage_i.toString()">
                                <label for="stage_{{ stage_i }}">
                                    <input class="uk-checkbox" type="checkbox" formControlName="stage" id="stage_{{ stage_i }}"

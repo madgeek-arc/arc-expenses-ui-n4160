@@ -3,7 +3,7 @@
 * */
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { BudgetResponse } from '../domain/operation';
+import { Attachment, BudgetResponse } from '../domain/operation';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -33,6 +33,9 @@ export class BudgetStage1FormComponent implements OnInit {
     boardDecisionName: string;
     technicalReport: File;
     technicalReportName: string;
+    additionalBoardDecisions: File[] = [];
+    additionalBoardDecisionsNames: string[] = [];
+    filesToBeDeleted: string[] = [];
 
     amountsByType = { regularAmount: '0', contractAmount: '0', tripAmount: '0', servicesContractAmount: '0' };
 
@@ -63,6 +66,30 @@ export class BudgetStage1FormComponent implements OnInit {
         this.technicalReport = file;
     }
 
+    getUploadedFiles(files: File[]) {
+        this.additionalBoardDecisions = files;
+    }
+
+    removeUploadedFile(filename: string) {
+        // if it was a new file
+
+        const z = this.additionalBoardDecisionsNames.indexOf(filename);
+        this.additionalBoardDecisionsNames.splice(z, 1);
+
+        if (this.additionalBoardDecisions && this.additionalBoardDecisions.some(x => x.name === filename)) {
+            const i = this.additionalBoardDecisions.findIndex(x => x.name === filename);
+            this.additionalBoardDecisions.splice(i, 1);
+
+            // if it was an already uploaded file
+        } else if (this.currentBudget.additionalBoardDecisions &&
+            this.currentBudget.additionalBoardDecisions.some(x => x.filename === filename)) {
+
+            const i = this.currentBudget.additionalBoardDecisions.findIndex(x => x.filename === filename);
+            this.filesToBeDeleted.push(this.currentBudget.additionalBoardDecisions[i].url);
+            this.currentBudget.additionalBoardDecisions.splice(i, 1);
+        }
+    }
+
     updateStage1() {
         console.log(this.updateStage1Form.getRawValue());
         this.errorMessage = '';
@@ -73,8 +100,9 @@ export class BudgetStage1FormComponent implements OnInit {
                 !this.updateStage1Form.get('servicesContractAmount').value) {
 
                 this.errorMessage = 'Θα πρέπει να συμπληρώσετε ποσό για τουλάχιστον μία από τις κατηγορίες δαπανών.';
-            }  else if ((!this.boardDecision && !this.currentBudget.boardDecision) ||
-                        (!this.technicalReport && !this.currentBudget.technicalReport)) {
+            }  else if (((this.currentBudget.budgetStatus === 'PENDING') || (this.currentBudget.budgetStatus === 'UNDER_REVIEW')) &&
+                        ((!this.boardDecision && !this.currentBudget.boardDecision) ||
+                         (!this.technicalReport && !this.currentBudget.technicalReport))) {
                 this.errorMessage = 'Η επισύναψη της απόφασης του Διοικητικού Συμβουλίου και του Τεχνικού Δελτίου είναι υποχρεωτική.';
             } else {
                 const updatedBudget = new FormData();
@@ -88,6 +116,12 @@ export class BudgetStage1FormComponent implements OnInit {
 
                 if ( this.technicalReport ) {
                     updatedBudget.append('technicalReport', this.technicalReport, this.technicalReport.name);
+                }
+
+                if (this.filesToBeDeleted.length > 0) {
+                    for (const f of this.filesToBeDeleted) {
+                        updatedBudget.append('removed', f);
+                    }
                 }
 
                 this.emitBudget.emit(updatedBudget);
@@ -114,6 +148,18 @@ export class BudgetStage1FormComponent implements OnInit {
 
     closeForm() {
         this.emitCloseForm.emit(false);
+    }
+
+
+    linkToFile(fieldName: string) {
+        if (this.currentBudget[fieldName] && this.currentBudget[fieldName].url) {
+
+            let url = `${window.location.origin}/arc-expenses-service/budget/store?`;
+            url = `${url}archiveId=${encodeURIComponent(this.currentBudget[fieldName].url)}`;
+            url = `${url}&id=${this.currentBudget.id}`;
+
+            window.open(url, '_blank');
+        }
     }
 
 }

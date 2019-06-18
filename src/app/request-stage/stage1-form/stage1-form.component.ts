@@ -17,6 +17,8 @@ export class Stage1FormComponent implements OnInit {
      * in order to call the api and update the request */
     @Output() emitRequest: EventEmitter<FormData> = new EventEmitter<FormData>();
 
+    @Output() emitCloseForm: EventEmitter<Boolean> = new EventEmitter<Boolean>();
+
 
     updateStage1Form: FormGroup;
     stage1AttachmentNames: string[] = [];
@@ -152,6 +154,10 @@ export class Stage1FormComponent implements OnInit {
         } else {
             this.errorMessage = 'Τα πεδία που σημειώνονται με (*) είναι υποχρεωτικά';
         }
+    }
+
+    closeForm() {
+        this.emitCloseForm.emit(false);
     }
 
     setIsSupplierReq(val: boolean) {

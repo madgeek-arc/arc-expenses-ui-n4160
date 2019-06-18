@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 
-describe('arc-expenses-ui-n4160 App', () => {
+describe('arc-expenses-ui-n4610 App', () => {
   let page: AppPage;
 
   beforeEach(() => {

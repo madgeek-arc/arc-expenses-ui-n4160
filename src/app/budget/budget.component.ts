@@ -111,6 +111,9 @@ export class BudgetComponent implements OnInit {
                     }
                 }
             }
+        } else if ((this.currentBudget.budgetStatus === 'ACCEPTED') &&
+                   (this.currentBudget.canEdit === true) || (this.userIsAdmin()) ) {
+            this.currentRequestInfo.previousStage = '1';
         }
     }
 
@@ -262,14 +265,26 @@ export class BudgetComponent implements OnInit {
     }
 
 
-    linkToFile(fieldName: string) {
-        if (this.currentBudget.boardDecision && this.currentBudget[fieldName].url) {
+    linkToFile(fieldName: string, fileIndex?: number) {
+        if (fileIndex && this.currentBudget[fieldName]) {
+            if (this.currentBudget[fieldName][fileIndex] &&
+                this.currentBudget[fieldName][fileIndex].url) {
 
-            let url = `${window.location.origin}/arc-expenses-service/budget/store?`;
-            url = `${url}archiveId=${encodeURIComponent(this.currentBudget[fieldName].url)}`;
-            url = `${url}&id=${this.currentBudget.id}`;
+                let url = `${window.location.origin}/arc-expenses-service/request/store?`;
+                url = `${url}archiveId=${encodeURIComponent(this.currentBudget[fieldName][fileIndex].url)}`;
+                url = `${url}&id=${this.currentBudget.id}`;
 
-            window.open(url, '_blank');
+                window.open(url, '_blank');
+            }
+        } else {
+            if (this.currentBudget[fieldName] && this.currentBudget[fieldName].url) {
+
+                let url = `${window.location.origin}/arc-expenses-service/budget/store?`;
+                url = `${url}archiveId=${encodeURIComponent(this.currentBudget[fieldName].url)}`;
+                url = `${url}&id=${this.currentBudget.id}`;
+
+                window.open(url, '_blank');
+            }
         }
     }
 

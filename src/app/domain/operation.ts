@@ -21,6 +21,9 @@ export class RequestResponse {
     tripDestination: string;
     canEdit: boolean;
     canEditPrevious: boolean;
+    total: number;
+    paid: number;
+    budgetId: string;
 }
 
 export class RequestSummary {
@@ -74,7 +77,7 @@ export class Institute {
     id: string;
     name: string;
     organizationId: string;
-    director: PersonOfInterest;creationDate
+    director: PersonOfInterest;
     accountingRegistration: PersonOfInterest;
     accountingPayment: PersonOfInterest;
     accountingDirector: PersonOfInterest;
@@ -280,6 +283,7 @@ export class YearlyBudget {
     stage5a: Stage5a;
     stage6: Stage6;
     boardDecision: Attachment;
+    additionalBoardDecisions: Attachment[];
     technicalReport: Attachment;
 }
 
@@ -317,6 +321,7 @@ export class BudgetResponse {
     stage6: Stage6;
     boardDecision: Attachment;
     technicalReport: Attachment;
+    additionalBoardDecisions: Attachment[];
     canEdit: boolean;
     canEditPrevious: boolean;
 }
@@ -330,4 +335,16 @@ export class BudgetDistributionStatus {
     contractAmountSpent: number;
     tripAmountSpent: number;
     servicesContractAmountSpent: number;
+}
+
+export class AmountInfo {
+    total: number;
+    paid: number;
+}
+
+export class BudgetAmountsStatus {
+    REGULAR: AmountInfo;
+    TRIP: AmountInfo;
+    CONTRACT: AmountInfo;
+    SERVICES_CONTRACT: AmountInfo;
 }

@@ -32,7 +32,7 @@
 
                                 <!--1st stage-->
                                 <div *ngIf="showStage1" class="submittedRequest">
-                                    <div *ngIf="userIsRequester() || userIsAdmin()">
+                                    <div *ngIf="currentRequestInfo.previousStage && (currentRequestInfo.previousStage === '1')" data-html2canvas-ignore>
                                         <button class="uk-button uk-button-small uk-button-primary" style="border-radius: 3px !important;"
                                                 (click)="editStage1(true)">Επεξεργασία</button>
                                     </div>
@@ -57,7 +57,7 @@
                                         </div>
 
                                         <div class="uk-width-1-1@l uk-margin-top">
-                                            <span class="uk-text-bold uk-margin-small-right uk-text-uppercase"><u>Κατανομή δαπανών</u></span>
+                                            <span class="uk-text-bold uk-margin-small-right uk-text-uppercase"><u>Κατανομη δαπανων</u></span>
                                         </div>
                                         <div *ngIf="currentBudget.regularAmount" class="uk-width-1-2@l">
                                             <span class="uk-text-bold uk-margin-small-right">Προμήθειες:</span>
@@ -86,9 +86,19 @@
                                             <a class="uk-link" (click)="linkToFile('boardDecision')"> {{ currentBudget.boardDecision.filename }}</a>
                                         </div>
 
-                                        <div *ngIf="currentBudget.technicalReport" class="uk-margin-small-top uk-width-1-1@l " data-html2canvas-ignore>
+                                        <div *ngIf="currentBudget.technicalReport" class="uk-width-1-1@l " data-html2canvas-ignore>
                                             <span class="uk-text-bold uk-margin-small-right">Τεχνικό Δελτίο: </span>
                                             <a class="uk-link" (click)="linkToFile('technicalReport')"> {{ currentBudget.technicalReport.filename }}</a>
+                                        </div>
+                                        <div *ngIf="currentBudget.additionalBoardDecisions && (currentBudget.additionalBoardDecisions.length > 0)"
+                                             class="uk-margin-small-top uk-width-1-1@l " data-html2canvas-ignore>
+                                            Για λήψη του αρχείου που επιθυμείτε, πατήστε στον αντίστοιχο σύνδεσμο:
+                                            <span *ngFor="let f of currentBudget.additionalBoardDecisions; let i = index">
+                                                <a class="uk-link uk-width-1-1@l" (click)="linkToFile('additionalBoardDecisions', i)">
+                                                    {{ f.filename }}
+                                                </a>
+                                                <span *ngIf="currentBudget.additionalBoardDecisions.length > i + 1"> |</span>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>

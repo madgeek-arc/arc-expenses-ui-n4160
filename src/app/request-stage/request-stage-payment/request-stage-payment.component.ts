@@ -32,6 +32,7 @@ export class RequestStagePaymentComponent implements OnInit {
     selMethods = supplierSelectionMethodsMap;
     stateNames = statusNamesMap;
     reqTypes = requestTypes;
+    showAmounts: boolean;
 
     currentRequestInfo: RequestInfo;
 
@@ -99,6 +100,9 @@ export class RequestStagePaymentComponent implements OnInit {
             () => {
                 this.currentRequestInfo = new RequestInfo(this.currentRequestPayment.baseInfo.id,
                                                           this.currentRequestPayment.baseInfo.requestId);
+                this.showAmounts = ((this.currentRequestPayment.baseInfo.stage === '8') &&
+                                    this.currentRequestPayment.total && this.currentRequestPayment.paid &&
+                                    (this.userIsAdmin() || this.currentRequestPayment.canEdit));
                 this.findPreviousStage();
                 this.checkIfStageIs7(this.currentRequestPayment.baseInfo.stage);
                 this.showSpinner = false;

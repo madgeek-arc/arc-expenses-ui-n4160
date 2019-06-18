@@ -85,7 +85,9 @@
         </div>
         <div class="uk-width-1-1\@l">
             <button class="uk-button uk-button-primary" (click)="updateStage1()">
-                {{ ((currentRequest != null) && (currentRequest.baseInfo.stage === '2')) ? 'Αποθήκευση αλλαγών': 'Υποβολή'}}</button>
+                {{ currentRequest.baseInfo.stage === '2' ? 'Αποθήκευση αλλαγών': 'Υποβολή'}}</button>
+            <button *ngIf="(currentRequest.baseInfo.stage === '2')"
+                    class="uk-button uk-button-default" (click)="closeForm()">Κλείσιμο</button>
         </div>
     </form>
 

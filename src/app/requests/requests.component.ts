@@ -175,6 +175,10 @@ export class RequestsComponent implements OnInit {
         });
     }
 
+    get stageChoices(): FormArray {
+        return this.filtersForm.get('stageChoices') as FormArray;
+    }
+
     setFormValues() {
         if (this.phaseId !== 0) {
             this.setValueOfFormArrayControl('phases', this.phaseId - 1, 'phase', true);

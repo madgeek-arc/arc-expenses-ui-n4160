@@ -36,7 +36,7 @@
                 <div *ngIf="showStage1" class="submittedRequest">
                   <div *ngIf="currentRequestInfo.previousStage && (currentRequestInfo.previousStage === '1')">
                     <button class="uk-button uk-button-small uk-button-primary" style="border-radius: 3px !important;"
-                            (click)="editStage1()">Επεξεργασία</button>
+                            (click)="editStage1(true)">Επεξεργασία</button>
                   </div>
                   <div class="uk-margin-bottom uk-width-1-1 uk-grid">
                     <div class="uk-width-1-2@l">
@@ -98,7 +98,8 @@
                 <!-- stage 1 form -->
                 <div *ngIf="!showStage1" data-html2canvas-ignore>
                   <stage1-form [currentRequest]="currentRequestApproval"
-                               (emitRequest)="getUpdatedRequest($event)"></stage1-form>
+                               (emitRequest)="getUpdatedRequest($event)"
+                               (emitCloseForm)="editStage1($event)"></stage1-form>
                 </div>
 
                 <!-- Link to Payment -->
@@ -110,7 +111,8 @@
                 </div>
 
                 <!--end of 1st stage-->
-                <div class="uk-text-right" data-html2canvas-ignore>
+                <div *ngIf="showStage1"
+                     class="uk-text-right" data-html2canvas-ignore>
                   <span *ngIf="canBeCancelled"
                         class="uk-margin-small-right"
                         title="{{ getTooltipText() }}" uk-tooltip>
@@ -249,13 +251,25 @@
               </div>
             </div>
 
-            <!-- RIGHT HELP CONTENT -->
-            <aside-help-content #rightHelperContent [position]="'right'"
-                                [ngClass]="rightHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
-            </aside-help-content>
+          </div>
+
+          <div *ngIf="showAmounts"
+               class="uk-card uk-card-body uk-card-secondary sidemenu uk-margin-left">
+            <h3>Δαπάνες έργου</h3>
+            <ul class="uk-list">
+              <li><b>Συνολικό ποσό: </b>{{ currentRequestApproval.total | currency: 'EUR': 'symbol-narrow' }}</li>
+              <li>
+                <b>Εγκεκριμένες δαπάνες: </b>
+                {{ currentRequestApproval.paid | currency: 'EUR': 'symbol-narrow' }}
+              </li>
+              <li>
+                <b>Υπόλοιπο: </b>
+                {{ (currentRequestApproval.total - currentRequestApproval.paid) | currency: 'EUR': 'symbol-narrow' }}
+              </li>
+            </ul>
+          </div>
 
           </div>
-        </div>
 
 
         <!-- BOTTOM HELP CONTENT -->

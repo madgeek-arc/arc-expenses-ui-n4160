@@ -40,6 +40,7 @@ export class RequestStageComponent implements OnInit {
     prevStageLoaderAnchorItem: AnchorItem;
     showStage1: boolean;
     canBeCancelled: boolean;
+    showAmounts: boolean;
 
     constructor(private route: ActivatedRoute,
                 private router: Router,
@@ -99,6 +100,8 @@ export class RequestStageComponent implements OnInit {
                 this.findPreviousStage();
                 this.checkIfStageIs5b(this.currentRequestApproval.baseInfo.stage);
                 this.getRequestPayments();
+                this.showAmounts = (this.currentRequestApproval.total && this.currentRequestApproval.paid &&
+                                    (this.currentRequestApproval.canEdit || this.userIsAdmin()));
                 window.scrollTo(1, 1);
             }
         );
@@ -226,8 +229,8 @@ export class RequestStageComponent implements OnInit {
         this.showStage1 = (this.willShowStage('1') === 2);
     }
 
-    editStage1() {
-        this.showStage1 = false;
+    editStage1(showForm: boolean) {
+        this.showStage1 = !showForm;
     }
 
     editPreviousStage(showForm: boolean) {

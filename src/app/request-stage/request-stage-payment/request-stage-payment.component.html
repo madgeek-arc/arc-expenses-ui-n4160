@@ -213,10 +213,24 @@
 
                         </div>
 
-                        <!-- RIGHT HELP CONTENT -->
-                        <aside-help-content #rightHelperContent [position]="'right'"
-                                            [ngClass]="rightHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
-                        </aside-help-content>
+                        <div *ngIf="showAmounts"
+                             class="uk-card uk-card-body uk-card-secondary sidemenu uk-margin-left">
+                            <h3>Δαπάνες έργου</h3>
+                            <ul class="uk-list">
+                                <li>
+                                    <b>Συνολικό ποσό: </b>
+                                    {{ currentRequestPayment.total | currency: 'EUR': 'symbol-narrow' }}
+                                </li>
+                                <li>
+                                    <b>Εγκεκριμένες δαπάνες: </b>
+                                    {{ currentRequestPayment.paid | currency: 'EUR': 'symbol-narrow' }}
+                                </li>
+                                <li>
+                                    <b>Υπόλοιπο: </b>
+                                    {{ (currentRequestPayment.total - currentRequestPayment.paid - currentRequestPayment.stages['1']['finalAmount']) | currency: 'EUR': 'symbol-narrow' }}
+                                </li>
+                            </ul>
+                        </div>
 
                     </div>
                 </div>
