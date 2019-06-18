@@ -3,7 +3,7 @@
 * */
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Attachment, BudgetResponse } from '../domain/operation';
+import { BudgetResponse } from '../domain/operation';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -33,7 +33,7 @@ export class BudgetStage1FormComponent implements OnInit {
     boardDecisionName: string;
     technicalReport: File;
     technicalReportName: string;
-    additionalBoardDecisions: File[] = [];
+    additionalBoardDecisions: File[];
     additionalBoardDecisionsNames: string[] = [];
     filesToBeDeleted: string[] = [];
 
@@ -104,6 +104,9 @@ export class BudgetStage1FormComponent implements OnInit {
                         ((!this.boardDecision && !this.currentBudget.boardDecision) ||
                          (!this.technicalReport && !this.currentBudget.technicalReport))) {
                 this.errorMessage = 'Η επισύναψη της απόφασης του Διοικητικού Συμβουλίου και του Τεχνικού Δελτίου είναι υποχρεωτική.';
+            }  else if ((this.currentBudget.budgetStatus === 'ACCEPTED') &&
+                        !this.additionalBoardDecisions && !this.currentBudget.additionalBoardDecisions) {
+                this.errorMessage = 'Η επισύναψη της συμπληρωματικής απόφασης του Διοικητικού Συμβουλίου είναι υποχρεωτική.';
             } else {
                 const updatedBudget = new FormData();
                 Object.keys(this.formDefinition).forEach(
