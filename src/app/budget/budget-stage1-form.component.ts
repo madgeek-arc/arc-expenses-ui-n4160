@@ -121,6 +121,12 @@ export class BudgetStage1FormComponent implements OnInit {
                     updatedBudget.append('technicalReport', this.technicalReport, this.technicalReport.name);
                 }
 
+                if ( this.additionalBoardDecisions && (this.additionalBoardDecisions.length > 0) ) {
+                    for (const file of this.additionalBoardDecisions) {
+                        updatedBudget.append('additionalBoardDecisions', file, file.name);
+                    }
+                }
+
                 if (this.filesToBeDeleted.length > 0) {
                     for (const f of this.filesToBeDeleted) {
                         updatedBudget.append('removed', f);

@@ -92,28 +92,29 @@
             <textarea class="uk-textarea" rows="3" formControlName="comment"></textarea>
         </div>
 
-        <div *ngIf="(currentBudget.budgetStatus === 'PENDING') || (currentBudget.budgetStatus === 'UNDER_REVIEW')">
-            <div class="uk-width-1-1@l">
+        <div *ngIf="(currentBudget.budgetStatus === 'PENDING') || (currentBudget.budgetStatus === 'UNDER_REVIEW')"
+             class="uk-width-1-1@l uk-grid">
+            <div class="uk-margin-small-right uk-margin-top uk-width-1-4@l">
                 <span class="uk-text-bold uk-margin-small-right">Απόφαση Δ.Σ. (*)</span>
             </div>
-            <div *ngIf="boardDecisionName" class="uk-width-1-1@l">
+            <div *ngIf="boardDecisionName" class="uk-width-3-4@l">
                 <div class="uk-form-controls uk-form-controls-text">
                     <app-form-upload-file [uploadedFilename]="boardDecisionName"
                                           (emitFile)="getBoardDecisionFile($event)"></app-form-upload-file>
                 </div>
             </div>
 
-            <div class="uk-width-1-1@l">
-                <span class="uk-text-bold uk-margin-small-right">Τεχνικό Δελτίο (*)</span>
+            <div class="uk-margin-small-right uk-margin-top uk-width-1-4@l">
+                <span class="uk-text-bold uk-margin-small-right">Τεχνικό Δελτίο (*):</span>
             </div>
-            <div *ngIf="technicalReportName" class="uk-width-1-1@l">
+            <div *ngIf="technicalReportName" class="uk-width-3-4@l">
                 <div class="uk-form-controls uk-form-controls-text">
                     <app-form-upload-file [uploadedFilename]="technicalReportName"
                                           (emitFile)="getTechnicalReportFile($event)"></app-form-upload-file>
                 </div>
             </div>
         </div>
-        <div *ngIf="currentBudget.budgetStatus === 'ACCEPTED'" class="uk-width-1-1@l uk-grid"  data-html2canvas-ignore>
+        <div *ngIf="currentBudget.budgetStatus === 'ACCEPTED'" class="uk-width-1-1@l uk-grid">
             <div *ngIf="currentBudget.boardDecision" class="uk-margin-small-top uk-width-1-1@l">
                 <span class="uk-text-bold uk-margin-small-right">Απόφαση Διοικητικού Συμβουλίου: </span>
                 <a class="uk-link" (click)="linkToFile('boardDecision')"> {{ currentBudget.boardDecision.filename }}</a>

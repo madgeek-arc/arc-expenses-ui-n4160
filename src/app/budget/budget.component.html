@@ -193,19 +193,50 @@
                             </div>
 
                         </div>
-                        <div *ngIf="showAmounts"
+                        <div *ngIf="showAmounts && amountsStatus"
                              class="uk-card uk-card-body uk-card-secondary sidemenu uk-margin-left">
                             <h3>Δαπάνες έργου</h3>
                             <ul class="uk-list">
-                                <!--<li><b>Συνολικό ποσό: </b>{{ currentRequestApproval.total | currency: 'EUR': 'symbol-narrow' }}</li>
+                                <li class="uk-h5 uk-margin-remove-bottom uk-text-uppercase uk-margin-top">Προμηθειες</li>
+                                <li><b>Συνολικό ποσό: </b>{{ amountsStatus.REGULAR.total | currency: 'EUR': 'symbol-narrow' }}</li>
                                 <li>
                                     <b>Εγκεκριμένες δαπάνες: </b>
-                                    {{ currentRequestApproval.paid | currency: 'EUR': 'symbol-narrow' }}
+                                    {{ amountsStatus.REGULAR.paid | currency: 'EUR': 'symbol-narrow' }}
                                 </li>
                                 <li>
                                     <b>Υπόλοιπο: </b>
-                                    {{ (currentRequestApproval.total - currentRequestApproval.paid) | currency: 'EUR': 'symbol-narrow' }}
-                                </li>-->
+                                    {{ (amountsStatus.REGULAR.total - amountsStatus.REGULAR.paid) | currency: 'EUR': 'symbol-narrow' }}
+                                </li>
+                                <li class="uk-h5 uk-margin-remove-bottom uk-text-uppercase uk-margin-top">Ταξιδια</li>
+                                <li><b>Συνολικό ποσό: </b>{{ amountsStatus.TRIP.total | currency: 'EUR': 'symbol-narrow' }}</li>
+                                <li>
+                                    <b>Εγκεκριμένες δαπάνες: </b>
+                                    {{ amountsStatus.TRIP.paid | currency: 'EUR': 'symbol-narrow' }}
+                                </li>
+                                <li>
+                                    <b>Υπόλοιπο: </b>
+                                    {{ (amountsStatus.TRIP.total - amountsStatus.TRIP.paid) | currency: 'EUR': 'symbol-narrow' }}
+                                </li>
+                                <li class="uk-h5 uk-margin-remove-bottom uk-text-uppercase uk-margin-top">Συμβασεις</li>
+                                <li><b>Συνολικό ποσό: </b>{{ amountsStatus.CONTRACT.total | currency: 'EUR': 'symbol-narrow' }}</li>
+                                <li>
+                                    <b>Εγκεκριμένες δαπάνες: </b>
+                                    {{ amountsStatus.CONTRACT.paid | currency: 'EUR': 'symbol-narrow' }}
+                                </li>
+                                <li>
+                                    <b>Υπόλοιπο: </b>
+                                    {{ (amountsStatus.CONTRACT.total - amountsStatus.CONTRACT.paid) | currency: 'EUR': 'symbol-narrow' }}
+                                </li>
+                                <li class="uk-h5 uk-margin-remove-bottom uk-text-uppercase uk-margin-top">Συμβασεις Υπηρεσιας</li>
+                                <li><b>Συνολικό ποσό: </b>{{ amountsStatus.SERVICES_CONTRACT.total | currency: 'EUR': 'symbol-narrow' }}</li>
+                                <li>
+                                    <b>Εγκεκριμένες δαπάνες: </b>
+                                    {{ amountsStatus.SERVICES_CONTRACT.paid | currency: 'EUR': 'symbol-narrow' }}
+                                </li>
+                                <li>
+                                    <b>Υπόλοιπο: </b>
+                                    {{ (amountsStatus.SERVICES_CONTRACT.total - amountsStatus.SERVICES_CONTRACT.paid) | currency: 'EUR': 'symbol-narrow' }}
+                                </li>
                             </ul>
                         </div>
 

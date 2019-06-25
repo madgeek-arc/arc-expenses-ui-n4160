@@ -324,18 +324,6 @@ export class BudgetResponse {
     additionalBoardDecisions: Attachment[];
     canEdit: boolean;
     canEditPrevious: boolean;
-    paid: any;
-}
-
-export class BudgetDistributionStatus {
-    regularAmount: number;
-    contractAmount: number;
-    tripAmount: number;
-    servicesContractAmount: number;
-    regularAmountSpent: number;
-    contractAmountSpent: number;
-    tripAmountSpent: number;
-    servicesContractAmountSpent: number;
 }
 
 export class AmountInfo {

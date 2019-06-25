@@ -3,7 +3,7 @@
 * */
 
 import { Component, OnInit } from '@angular/core';
-import { BudgetResponse } from '../domain/operation';
+import { BudgetAmountsStatus, BudgetResponse } from '../domain/operation';
 import { budgetStages, statusNamesMap } from '../domain/stageDescriptions';
 import { RequestInfo } from '../domain/requestInfoClasses';
 import { AnchorItem } from '../shared/dynamic-loader-anchor-components/anchor-item';
@@ -38,6 +38,7 @@ export class BudgetComponent implements OnInit {
     canBeCancelled: boolean;
 
     showAmounts: boolean;
+    amountsStatus: BudgetAmountsStatus;
 
     constructor(private route: ActivatedRoute,
                 private router: Router,
@@ -94,8 +95,27 @@ export class BudgetComponent implements OnInit {
                 this.setCanBeCancelled();
                 this.showAmounts = ((this.currentBudget.budgetStatus === 'ACCEPTED') &&
                                     (this.userIsAdmin() || this.currentBudget.canEdit));
+
+                // show budget amounts status only while editing an accepted budget
+                if (this.showAmounts) {
+                    this.getAmountsStatus();
+                }
                 window.scrollTo(1, 1);
             }
+        );
+    }
+
+    getAmountsStatus() {
+        this.showSpinner = true;
+        this.errorMessage = '';
+        this.budgetService.getAmounts(this.currentBudget.id).subscribe(
+            res => this.amountsStatus = res,
+            er => {
+                console.log(er);
+                this.showSpinner = false;
+                this.errorMessage = 'Παρουσιάστηκε πρόβλημα κατά την ανάκτηση των απαραίτητων πληροφοριών.';
+            },
+            () => this.showSpinner = false
         );
     }
 
@@ -136,7 +156,7 @@ export class BudgetComponent implements OnInit {
     }
 
     updateBudget(mode: string, submitted: FormData) {
-        window.scrollTo(0, 0);
+        window.scrollTo(1, 1);
         this.showSpinner = true;
         this.errorMessage = '';
         this.successMessage = '';
@@ -154,7 +174,6 @@ export class BudgetComponent implements OnInit {
                     console.log(error);
                     this.showSpinner = false;
                     this.errorMessage = 'Παρουσιάστηκε πρόβλημα κατά την αποθήκευση των αλλαγών.';
-                    window.scrollTo(1, 1);
                 },
                 () => {
                     this.successMessage = 'Οι αλλαγές αποθηκεύτηκαν.';
