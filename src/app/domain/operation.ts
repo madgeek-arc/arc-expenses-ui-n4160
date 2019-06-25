@@ -324,6 +324,7 @@ export class BudgetResponse {
     additionalBoardDecisions: Attachment[];
     canEdit: boolean;
     canEditPrevious: boolean;
+    paid: any;
 }
 
 export class BudgetDistributionStatus {

@@ -37,6 +37,8 @@ export class BudgetComponent implements OnInit {
     showStage1: boolean;
     canBeCancelled: boolean;
 
+    showAmounts: boolean;
+
     constructor(private route: ActivatedRoute,
                 private router: Router,
                 private authService: AuthenticationService,
@@ -90,6 +92,8 @@ export class BudgetComponent implements OnInit {
                 this.findPreviousStage();
                 this.updateShowStageFields();
                 this.setCanBeCancelled();
+                this.showAmounts = ((this.currentBudget.budgetStatus === 'ACCEPTED') &&
+                                    (this.userIsAdmin() || this.currentBudget.canEdit));
                 window.scrollTo(1, 1);
             }
         );
@@ -99,17 +103,17 @@ export class BudgetComponent implements OnInit {
     findPreviousStage() {
         if (((this.currentBudget.budgetStatus === 'PENDING') || (this.currentBudget.budgetStatus === 'UNDER_REVIEW')) &&
             (this.currentBudget.stage !== '1')) {
+            let prevStage: string;
             if (this.currentBudget.stage === '2') {
-                this.currentRequestInfo.previousStage = '1';
+                prevStage = '1';
             } else {
                 const i = this.stages.indexOf(this.currentBudget.stage);
                 if ((i > 0) && (this.currentBudget['stage' + this.stages[i - 1]] != null) ) {
-                    let prevStage: string;
                     prevStage = this.stages[i - 1];
-                    if ((this.currentBudget.canEditPrevious === true) || (this.userIsAdmin())) {
-                        this.currentRequestInfo.previousStage = prevStage;
-                    }
                 }
+            }
+            if ((this.currentBudget.canEditPrevious === true) || (this.userIsAdmin())) {
+                this.currentRequestInfo.previousStage = prevStage;
             }
         } else if ((this.currentBudget.budgetStatus === 'ACCEPTED') &&
                    (this.currentBudget.canEdit === true) || (this.userIsAdmin()) ) {

@@ -100,8 +100,9 @@ export class RequestStageComponent implements OnInit {
                 this.findPreviousStage();
                 this.checkIfStageIs5b(this.currentRequestApproval.baseInfo.stage);
                 this.getRequestPayments();
-                this.showAmounts = (this.currentRequestApproval.total && this.currentRequestApproval.paid &&
-                                    (this.currentRequestApproval.canEdit || this.userIsAdmin()));
+                this.showAmounts = ((this.currentRequestApproval.baseInfo.stage !== '1') &&
+                                    this.currentRequestApproval.total && this.currentRequestApproval.paid &&
+                                    (this.userIsAdmin() || this.currentRequestApproval.canEdit));
                 window.scrollTo(1, 1);
             }
         );

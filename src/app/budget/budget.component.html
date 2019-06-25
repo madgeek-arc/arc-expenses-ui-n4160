@@ -128,7 +128,7 @@
                                 <!-- Submitted stages view -->
                                 <hr>
 
-                                <div class="uk-margin-top" *ngIf="(currentRequestInfo['2'].showStage >= 1)">
+                                <div class="uk-margin-top" *ngIf="(currentRequestInfo['2'].showStage >= 1) || (currentRequestInfo['4'].showStage >= 1)">
                                     <h4>Έγκριση ετήσιας δαπάνης δαπάνης</h4>
                                 </div>
 
@@ -187,17 +187,28 @@
                                 <!-- Message to user -->
                                 <div *ngIf="(currentBudget.budgetStatus !== 'PENDING') && (currentBudget.budgetStatus !== 'UNDER_REVIEW')"
                                      class="uk-alert uk-alert-primary uk-text-center uk-margin-top">
-                                    Το αίτημα {{ stateNames[currentBudget.budgetStatus] }}.
+                                    Ο προϋπολογισμός {{ stateNames[currentBudget.budgetStatus] }}.
                                 </div>
 
                             </div>
 
-                            <!-- RIGHT HELP CONTENT -->
-                            <aside-help-content #rightHelperContent [position]="'right'"
-                                                [ngClass]="rightHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
-                            </aside-help-content>
-
                         </div>
+                        <div *ngIf="showAmounts"
+                             class="uk-card uk-card-body uk-card-secondary sidemenu uk-margin-left">
+                            <h3>Δαπάνες έργου</h3>
+                            <ul class="uk-list">
+                                <!--<li><b>Συνολικό ποσό: </b>{{ currentRequestApproval.total | currency: 'EUR': 'symbol-narrow' }}</li>
+                                <li>
+                                    <b>Εγκεκριμένες δαπάνες: </b>
+                                    {{ currentRequestApproval.paid | currency: 'EUR': 'symbol-narrow' }}
+                                </li>
+                                <li>
+                                    <b>Υπόλοιπο: </b>
+                                    {{ (currentRequestApproval.total - currentRequestApproval.paid) | currency: 'EUR': 'symbol-narrow' }}
+                                </li>-->
+                            </ul>
+                        </div>
+
                     </div>
 
 

@@ -39,7 +39,7 @@ export class SignUpComponent implements OnInit {
           surname: ['', Validators.required],
           nameLatin: '',
           surnameLatin: '',
-          email: '',
+          email: [''],
           receiveEmails: [''],
           immediateEmails: ['']
       }, { validator: checkIfNull } );

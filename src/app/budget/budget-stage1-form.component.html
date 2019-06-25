@@ -113,18 +113,21 @@
                 </div>
             </div>
         </div>
-        <div *ngIf="currentBudget.budgetStatus === 'ACCEPTED'">
-            <div *ngIf="currentBudget.boardDecision" class="uk-margin-small-top uk-width-1-1@l " data-html2canvas-ignore>
+        <div *ngIf="currentBudget.budgetStatus === 'ACCEPTED'" class="uk-width-1-1@l uk-grid"  data-html2canvas-ignore>
+            <div *ngIf="currentBudget.boardDecision" class="uk-margin-small-top uk-width-1-1@l">
                 <span class="uk-text-bold uk-margin-small-right">Απόφαση Διοικητικού Συμβουλίου: </span>
                 <a class="uk-link" (click)="linkToFile('boardDecision')"> {{ currentBudget.boardDecision.filename }}</a>
             </div>
 
-            <div *ngIf="currentBudget.technicalReport" class="uk-width-1-1@l " data-html2canvas-ignore>
+            <div *ngIf="currentBudget.technicalReport" class="uk-width-1-1@l">
                 <span class="uk-text-bold uk-margin-small-right">Τεχνικό Δελτίο: </span>
                 <a class="uk-link" (click)="linkToFile('technicalReport')"> {{ currentBudget.technicalReport.filename }}</a>
             </div>
 
-            <div class="uk-width-1-1@l">
+            <div class="uk-margin-small-right uk-margin-top">
+                <span class="uk-text-bold uk-margin-small-right">Συμπληρωματική απόφαση ΔΣ:</span>
+            </div>
+            <div class="uk-width-expand uk-margin-top">
                 <div class="uk-form-controls uk-form-controls-text">
                     <app-form-upload-files [uploadedFilenames]="additionalBoardDecisionsNames"
                                            (emitFiles)="getUploadedFiles($event)"
