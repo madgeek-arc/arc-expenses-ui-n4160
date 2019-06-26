@@ -94,7 +94,7 @@ export class BudgetComponent implements OnInit {
                 this.updateShowStageFields();
                 this.setCanBeCancelled();
                 this.showAmounts = ((this.currentBudget.budgetStatus === 'ACCEPTED') &&
-                                    (this.userIsAdmin() || this.currentBudget.canEdit));
+                                    (this.userIsAdmin() || this.currentBudget.canEditPrevious));
 
                 // show budget amounts status only while editing an accepted budget
                 if (this.showAmounts) {
@@ -135,10 +135,10 @@ export class BudgetComponent implements OnInit {
             if ((this.currentBudget.canEditPrevious === true) || (this.userIsAdmin())) {
                 this.currentRequestInfo.previousStage = prevStage;
             }
-        } else if ((this.currentBudget.budgetStatus === 'ACCEPTED') &&
-                   (this.currentBudget.canEdit === true) || (this.userIsAdmin()) ) {
+        }/* else if ((this.currentBudget.budgetStatus === 'ACCEPTED') &&
+                   (this.currentBudget.canEditPrevious === true) || (this.userIsAdmin()) ) {
             this.currentRequestInfo.previousStage = '1';
-        }
+        }*/
     }
 
     getSubmittedStage(submittedData: any[]) {

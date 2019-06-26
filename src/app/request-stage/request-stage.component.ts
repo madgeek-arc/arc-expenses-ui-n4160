@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RequestPayment, RequestResponse } from '../domain/operation';
+import { ProjectBudgetSummary, RequestPayment, RequestResponse } from '../domain/operation';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ManageRequestsService } from '../services/manage-requests.service';
 import { AuthenticationService } from '../services/authentication.service';
@@ -9,6 +9,7 @@ import { approvalStages, requesterPositions, requestTypes, stageTitles,
 import { printRequestPage } from './print-request-function';
 import { AnchorItem } from '../shared/dynamic-loader-anchor-components/anchor-item';
 import { RequestInfo } from '../domain/requestInfoClasses';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 declare var UIkit: any;
 
@@ -21,7 +22,9 @@ export class RequestStageComponent implements OnInit {
     errorMessage: string;
     notFoundMessage: string;
     successMessage: string;
+    infoMessage: string;
     showSpinner: boolean;
+    budgetChoiceMessage: string;
 
     isSimpleUser: boolean;
     requestId: string;
@@ -41,8 +44,13 @@ export class RequestStageComponent implements OnInit {
     showStage1: boolean;
     canBeCancelled: boolean;
     showAmounts: boolean;
+    projectBudgets: ProjectBudgetSummary[] = [];
+    projectBudgetsForm: FormGroup;
+    currentBudgetSummary: ProjectBudgetSummary;
+    newBudget: string;
 
-    constructor(private route: ActivatedRoute,
+    constructor(private fb: FormBuilder,
+                private route: ActivatedRoute,
                 private router: Router,
                 private requestService: ManageRequestsService,
                 private authService: AuthenticationService) {
@@ -103,7 +111,35 @@ export class RequestStageComponent implements OnInit {
                 this.showAmounts = ((this.currentRequestApproval.baseInfo.stage !== '1') &&
                                     this.currentRequestApproval.total && this.currentRequestApproval.paid &&
                                     (this.userIsAdmin() || this.currentRequestApproval.canEdit));
+                if ((this.currentRequestApproval.baseInfo.stage === '3') &&
+                    (this.currentRequestApproval.canEdit || this.userIsAdmin())) {
+                    this.getProjectBudgets();
+                }
                 window.scrollTo(1, 1);
+            }
+        );
+    }
+
+    getProjectBudgets() {
+        this.errorMessage = '';
+        this.showSpinner = true;
+        this.requestService.getProjectBudgets(this.currentRequestApproval.baseInfo.requestId).subscribe(
+            res => this.projectBudgets = res,
+            er => {
+                this.showSpinner = false;
+                this.errorMessage = 'Παρουσιάστηκε πρόβλημα κατά την φόρτωση των προϋπολογισμών του έργου.';
+            },
+            () => {
+                this.showSpinner = false;
+                if (this.projectBudgets && (this.projectBudgets.length > 0)) {
+                    if (this.projectBudgets.some( b => b.id === this.currentRequestApproval.budgetId )) {
+                        console.log(this.currentRequestApproval.budgetId);
+                        const i = this.projectBudgets.findIndex( b => b.id === this.currentRequestApproval.budgetId );
+                        this.currentBudgetSummary = this.projectBudgets[i];
+                        this.projectBudgetsForm = this.fb.group({ budget: ['', Validators.required] });
+                        this.projectBudgetsForm.get('budget').setValue(i);
+                    }
+                }
             }
         );
     }
@@ -199,6 +235,9 @@ export class RequestStageComponent implements OnInit {
              ((mode === 'edit') && (this.currentRequestInfo.previousStage != null) && (this.currentRequestInfo.previousStage === '5b'))) {
             submitted.append('supplier', this.currentRequestApproval.stages['1']['supplier']);
             submitted.append('amountInEuros', this.currentRequestApproval.stages['1']['amountInEuros'].toString());
+        }
+        if (this.newBudget && (mode === 'approve')) {
+            submitted.append('newBudget', this.newBudget);
         }
         this.requestService.submitUpdate<any>('request', mode, this.currentRequestApproval.baseInfo.requestId, submitted)
             .subscribe(
@@ -433,5 +472,23 @@ export class RequestStageComponent implements OnInit {
             }
         );
     }
+
+    confirmChangeBudget() {
+        if (this.projectBudgetsForm.valid &&
+            (this.projectBudgets[this.projectBudgetsForm.get('budget').value].id !== this.currentBudgetSummary.id)) {
+            this.infoMessage = '';
+            UIkit.modal('#changeBudgetModal').show();
+        } else {
+            this.budgetChoiceMessage = 'Παρακαλώ επλέξτε έναν προϋπολογισμό διαφορετικό από τον προκαθορισμένο.';
+        }
+    }
+
+    confirmedChangeBudget() {
+        this.newBudget = this.projectBudgets[this.projectBudgetsForm.get('budget').value].id;
+        this.infoMessage = 'Η αλλαγή θα αποθηκευθεί μαζί με την έγκριση του τρέχοντος σταδίου.';
+        UIkit.modal('#changeBudgetModal').hide();
+        window.scrollTo(1, 1);
+    }
+
 
 }

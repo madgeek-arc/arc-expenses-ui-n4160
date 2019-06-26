@@ -337,3 +337,9 @@ export class BudgetAmountsStatus {
     CONTRACT: AmountInfo;
     SERVICES_CONTRACT: AmountInfo;
 }
+
+export class ProjectBudgetSummary {
+    id: string;
+    year: number;
+    fits: boolean;
+}

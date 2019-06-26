@@ -3,14 +3,12 @@
 * */
 
 import { Injectable } from '@angular/core';
-import { RequestPayment, RequestResponse, RequestSummary } from '../domain/operation';
+import { ProjectBudgetSummary, RequestPayment, RequestResponse, RequestSummary } from '../domain/operation';
 import { Observable } from 'rxjs/Observable';
-import { HttpClient, HttpErrorResponse, HttpEvent, HttpHeaders, HttpRequest } from '@angular/common/http';
-import { catchError, map } from 'rxjs/operators';
-import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
+import { HttpClient, HttpEvent, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { Paging } from '../domain/extraClasses';
 import { ContactUsMail } from '../domain/operation';
-import {environment} from '../../environments/environment';
+import { environment } from '../../environments/environment';
 
 const headerOptions = {
     headers : new HttpHeaders().set('Content-Type', 'application/json').set('Accept', 'application/json'),
@@ -88,6 +86,12 @@ export class ManageRequestsService {
         const url = `${this.apiUrl}payments/getByRequestId/${requestId}`;
         console.log(`calling ${url}`);
         return this.http.get<Paging<RequestPayment>>(url, headerOptions);
+    }
+
+    getProjectBudgets(requestId: string): Observable<ProjectBudgetSummary[]> {
+        const url = `${this.apiUrl}budgets/${requestId}`;
+        console.log(`calling ${url}`);
+        return this.http.get<ProjectBudgetSummary[]>(url, headerOptions);
     }
 
     searchAllRequestSummaries(searchField: string, status: string[], type: string[],
