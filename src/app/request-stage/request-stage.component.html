@@ -256,7 +256,7 @@
 
           <div *ngIf="showAmounts" data-html2canvas-ignore
                class="uk-card uk-card-body uk-card-secondary sidemenu uk-margin-left">
-            <h3>Δαπάνες έργου</h3>
+            <h3>Κατάσταση δαπανών</h3>
             <ul class="uk-list">
               <li><b>Συνολικό ποσό: </b>{{ currentRequestApproval.total | currency: 'EUR': 'symbol-narrow' }}</li>
               <li>
@@ -310,7 +310,7 @@
   </div>
 </div>
 
-<div *ngIf="currentRequestApproval" id="changeBudgetModal" uk-modal>
+<div *ngIf="projectBudgets && projectBudgetsForm" id="changeBudgetModal" uk-modal>
   <div class="uk-modal-dialog uk-modal-body">
     <h4 class="uk-modal-title uk-h4">Μεταβολή του αιτήματος</h4>
     <div class="uk-modal-body">
