@@ -14,7 +14,13 @@ export const statusNamesMap = {
     ACCEPTED: 'έχει ολοκληρωθεί',
     CANCELLED: 'έχει ακυρωθεί'
 };
-
+export const budgetStatusNamesMap = {
+    PENDING: 'βρίσκεται σε εξέλιξη',
+    UNDER_REVIEW: 'βρίσκεται σε εξέλιξη',
+    REJECTED: 'έχει απορριφθεί',
+    ACCEPTED: 'έχει εγκριθεί',
+    CANCELLED: 'έχει ακυρωθεί'
+};
 export const supplierSelectionMethods = ['Απ\' ευθείας ανάθεση', 'Έρευνα αγοράς', 'Διαγωνισμός'];
 export const supplierSelectionMethodsMap = {
     DIRECT: 'Απ\' ευθείας ανάθεση', MARKET_RESEARCH: 'Έρευνα αγοράς', AWARD_PROCEDURE: 'Διαγωνισμός' };

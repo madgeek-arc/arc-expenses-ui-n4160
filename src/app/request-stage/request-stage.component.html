@@ -255,7 +255,8 @@
           </div>
 
           <div *ngIf="showAmounts" data-html2canvas-ignore
-               class="uk-card uk-card-body uk-card-secondary sidemenu uk-margin-left">
+               class="uk-card uk-card-body uk-card-secondary sidemenu uk-margin-left"
+               style="max-width: 25%;">
             <h3>Κατάσταση δαπανών</h3>
             <ul class="uk-list">
               <li><b>Συνολικό ποσό: </b>{{ currentRequestApproval.total | currency: 'EUR': 'symbol-narrow' }}</li>
@@ -269,15 +270,15 @@
               </li>
             </ul>
             <hr>
-            <div *ngIf="projectBudgetsForm && this.currentBudgetSummary">
-              <h6>Το αίτημα πρόκειται να χρεωθεί στον<br>προϋπολογισμό του {{ this.currentBudgetSummary.year }}</h6>
+            <div *ngIf="projectBudgetsForm && currentBudgetSummary">
+              <h6>Το αίτημα πρόκειται να χρεωθεί στον προϋπολογισμό του {{ currentBudgetSummary.year }}</h6>
               <form [formGroup]="projectBudgetsForm">
                 <label for="budgetSelect"><b>Αλλαγή προϋπολογισμού:</b></label>
-                <select id="budgetSelect" formArrayName="budget" class="uk-select">
-                  <option *ngFor="let b of projectBudgets; let i = index" value="{{ i }}">
+                <select id="budgetSelect" formControlName="budget" class="uk-select">
+                  <option *ngFor="let b of projectBudgets" value="{{ b.id }}">
                     {{ b.year }}</option>
                 </select>
-                <div *ngIf="budgetChoiceMessage" class="uk-text-warning uk-text-small">{{ this.budgetChoiceMessage }}</div>
+                <div *ngIf="budgetChoiceMessage" class="uk-text-warning uk-text-small">{{ budgetChoiceMessage }}</div>
                 <button class="uk-button uk-button-default uk-margin-top" type="submit"
                         (click)="confirmChangeBudget()">Υποβολή</button>
               </form>
@@ -310,11 +311,11 @@
   </div>
 </div>
 
-<div *ngIf="projectBudgets && projectBudgetsForm" id="changeBudgetModal" uk-modal>
+<div *ngIf="currentBudgetSummary" id="changeBudgetModal" uk-modal>
   <div class="uk-modal-dialog uk-modal-body">
     <h4 class="uk-modal-title uk-h4">Μεταβολή του αιτήματος</h4>
     <div class="uk-modal-body">
-      Είστε βέβαιοι ότι επιθυμείτε να χρεώσετε το αίτημα στον προϋπολογισμό του {{ this.projectBudgets[this.projectBudgetsForm.get('budget').value].year }};
+      Είστε βέβαιοι ότι επιθυμείτε να χρεώσετε το αίτημα στον προϋπολογισμό του {{ currentBudgetSummary.year }};
     </div>
     <button class="uk-button uk-button-danger uk-margin-small-right" (click)="confirmedChangeBudget()">Επιβεβαίωση επιλογής</button>
     <button class="uk-button uk-button-default uk-modal-close">Κλείσιμο</button>

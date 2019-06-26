@@ -4,7 +4,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { BudgetAmountsStatus, BudgetResponse } from '../domain/operation';
-import { budgetStages, statusNamesMap } from '../domain/stageDescriptions';
+import { budgetStages, budgetStatusNamesMap } from '../domain/stageDescriptions';
 import { RequestInfo } from '../domain/requestInfoClasses';
 import { AnchorItem } from '../shared/dynamic-loader-anchor-components/anchor-item';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -28,7 +28,7 @@ export class BudgetComponent implements OnInit {
     budgetId: string;
     currentBudget: BudgetResponse;
     stages: string[] = budgetStages;
-    stateNames = statusNamesMap;
+    stateNames = budgetStatusNamesMap;
 
     currentRequestInfo: RequestInfo;
 

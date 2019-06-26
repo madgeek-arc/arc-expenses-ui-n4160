@@ -101,6 +101,7 @@ export class BudgetsComponent implements OnInit {
                 if ( params.has('projectAcronym') ) { this.extraFilters.set('projectAcronym', params.get('projectAcronym')); }
                 if ( params.has('institute') ) { this.extraFilters.set('institute', params.get('institute')); }
                 if ( params.has('submittedBy') ) { this.extraFilters.set('submittedBy', params.get('submittedBy')); }
+                if ( params.has('year') ) { this.extraFilters.set('year', params.get('year')); }
                 if ( params.has('searchTerm') ) {
                     this.searchTerm = params.get('searchTerm');
                     this.keywordField.get('keyword').setValue(this.searchTerm);

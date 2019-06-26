@@ -109,7 +109,7 @@ export class RequestStageComponent implements OnInit {
                 this.checkIfStageIs5b(this.currentRequestApproval.baseInfo.stage);
                 this.getRequestPayments();
                 this.showAmounts = ((this.currentRequestApproval.baseInfo.stage !== '1') &&
-                                    this.currentRequestApproval.total && this.currentRequestApproval.paid &&
+                                    ((this.currentRequestApproval.total != null) && (this.currentRequestApproval.paid != null)) &&
                                     (this.userIsAdmin() || this.currentRequestApproval.canEdit));
                 if ((this.currentRequestApproval.baseInfo.stage === '3') &&
                     (this.currentRequestApproval.canEdit || this.userIsAdmin())) {
@@ -137,7 +137,7 @@ export class RequestStageComponent implements OnInit {
                         const i = this.projectBudgets.findIndex( b => b.id === this.currentRequestApproval.budgetId );
                         this.currentBudgetSummary = this.projectBudgets[i];
                         this.projectBudgetsForm = this.fb.group({ budget: ['', Validators.required] });
-                        this.projectBudgetsForm.get('budget').setValue(i);
+                        this.projectBudgetsForm.get('budget').setValue(this.currentRequestApproval.budgetId);
                     }
                 }
             }
@@ -229,6 +229,7 @@ export class RequestStageComponent implements OnInit {
     updateRequest(mode: string, submitted: FormData) {
         window.scrollTo(0, 0);
         this.showSpinner = true;
+        this.infoMessage = '';
         this.errorMessage = '';
         this.successMessage = '';
         if ((this.currentRequestApproval.baseInfo.stage === '5b') ||
@@ -475,16 +476,18 @@ export class RequestStageComponent implements OnInit {
 
     confirmChangeBudget() {
         if (this.projectBudgetsForm.valid &&
-            (this.projectBudgets[this.projectBudgetsForm.get('budget').value].id !== this.currentBudgetSummary.id)) {
+            (this.projectBudgetsForm.get('budget').value !== this.currentBudgetSummary.id)) {
             this.infoMessage = '';
+            const i = this.projectBudgets.findIndex( b => b.id === this.projectBudgetsForm.get('budget').value);
+            this.currentBudgetSummary = this.projectBudgets[i];
             UIkit.modal('#changeBudgetModal').show();
         } else {
-            this.budgetChoiceMessage = 'Παρακαλώ επλέξτε έναν προϋπολογισμό διαφορετικό από τον προκαθορισμένο.';
+            this.budgetChoiceMessage = 'Παρακαλώ επλέξτε έναν προϋπολογισμό διαφορετικό από τον ήδη επιλεγμένο.';
         }
     }
 
     confirmedChangeBudget() {
-        this.newBudget = this.projectBudgets[this.projectBudgetsForm.get('budget').value].id;
+        this.newBudget = this.projectBudgetsForm.get('budget').value;
         this.infoMessage = 'Η αλλαγή θα αποθηκευθεί μαζί με την έγκριση του τρέχοντος σταδίου.';
         UIkit.modal('#changeBudgetModal').hide();
         window.scrollTo(1, 1);
