@@ -23,7 +23,7 @@
                             </a>
                         </li>
                         <li class="uk-parent" [routerLinkActive]="['uk-active']">
-                            <a aria-expanded="false">Πρωτογενές αίτημα</a>
+                            <a aria-expanded="false">Προσθήκη δαπάνης</a>
                             <div class="uk-navbar-dropdown uk-navbar-dropdown-bottom-left" style="top: 80px; left: 106.55px;"
                                  id="newRequestMenu" (click)="onClick('newRequestMenu')">
                                 <div class="uk-navbar-dropdown-grid uk-child-width-1-1 uk-grid uk-grid-stack" uk-grid="">
@@ -40,13 +40,13 @@
                         </li>
                         <li class="uk-parent" [routerLinkActive]="['uk-active']">
                             <a [routerLink]="['requests']">
-                                Αιτήματα
+                                Αιτήματα δαπανών
                             </a>
                         </li>
                         <li *ngIf="isAdmin || isOperator"
                             class="uk-parent" [routerLinkActive]="['uk-active']">
                             <a [routerLink]="['new-budget']">
-                                Προσθήκη προϋπολογισμού
+                                Ανάληψη έργου
                             </a>
                         </li>
                         <li *ngIf="isAdmin || isOperator || isExecutive"
@@ -148,7 +148,7 @@
                             </li>
                             <li class="uk-parent">
                                 <a [routerLink]="['new-request']" [routerLinkActive]="['uk-active']">
-                                    Πρωτογενές αίτημα
+                                    Προσθήκη δαπάνης
                                 </a>
                                 <!--<div>
                                     <div class="uk-first-column">-->
@@ -179,13 +179,13 @@
                             </li>
                             <li class="uk-parent" [routerLinkActive]="['uk-active']">
                                 <a [routerLink]="['requests']">
-                                    Αιτήματα
+                                    Αιτήματα δαπανών
                                 </a>
                             </li>
                             <li *ngIf="isAdmin || isOperator"
                                 class="uk-parent" [routerLinkActive]="['uk-active']">
                                 <a [routerLink]="['new-budget']">
-                                    Προσθήκη προϋπολογισμού
+                                    Ανάληψη έργου
                                 </a>
                             </li>
                             <li *ngIf="isAdmin || isOperator || isExecutive"

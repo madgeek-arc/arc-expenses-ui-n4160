@@ -135,10 +135,10 @@ export class BudgetComponent implements OnInit {
             if ((this.currentBudget.canEditPrevious === true) || (this.userIsAdmin())) {
                 this.currentRequestInfo.previousStage = prevStage;
             }
-        }/* else if ((this.currentBudget.budgetStatus === 'ACCEPTED') &&
+        } else if ((this.currentBudget.budgetStatus === 'ACCEPTED') &&
                    (this.currentBudget.canEditPrevious === true) || (this.userIsAdmin()) ) {
             this.currentRequestInfo.previousStage = '1';
-        }*/
+        }
     }
 
     getSubmittedStage(submittedData: any[]) {

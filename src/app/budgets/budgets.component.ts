@@ -226,8 +226,8 @@ export class BudgetsComponent implements OnInit {
                     !res.results.some(x => x === null)) {
 
                     this.listOfBudgets = res.results;
-                    console.log(`searchAllRequests sent me ${this.listOfBudgets.length} budgets`);
-                    console.log(`total requests are ${res.total}`);
+                    console.log(`getAllBudgets sent me ${this.listOfBudgets.length} budgets`);
+                    console.log(`total budgets are ${res.total}`);
                     this.totalPages = Math.ceil(res.total / this.itemsPerPage);
                 }
             },

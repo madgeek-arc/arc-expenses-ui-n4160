@@ -112,9 +112,9 @@
     <div class="uk-modal-dialog uk-modal-body">
         <h4 class="uk-modal-title uk-h4">Επιβεβαίωση απόρριψης</h4>
         <div class="uk-modal-body">
-            Είστε βέβαιοι ότι επιθυμείτε να απορρίψετε το αίτημα;
+            Είστε βέβαιοι ότι επιθυμείτε να απορρίψετε {{ stageId.includes('b') ? 'τον προϋπολογισμό' : 'το αίτημα' }};
         </div>
-        <button class="uk-button uk-button-danger uk-margin-small-right uk-modal-close" (click)="approveRequest(false)">Απόρριψη αιτήματος</button>
+        <button class="uk-button uk-button-danger uk-margin-small-right uk-modal-close" (click)="approveRequest(false)">Απόρριψη</button>
         <button class="uk-button uk-button-default uk-modal-close">Κλείσιμο</button>
     </div>
 </div>

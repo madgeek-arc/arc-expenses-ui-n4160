@@ -101,7 +101,7 @@ export class RequestStagePaymentComponent implements OnInit {
                 this.currentRequestInfo = new RequestInfo(this.currentRequestPayment.baseInfo.id,
                                                           this.currentRequestPayment.baseInfo.requestId);
                 this.showAmounts = ((this.currentRequestPayment.baseInfo.stage === '8') &&
-                                    this.currentRequestPayment.total && this.currentRequestPayment.paid &&
+                                    (this.currentRequestPayment.total != null) && (this.currentRequestPayment.paid != null) &&
                                     (this.userIsAdmin() || this.currentRequestPayment.canEdit));
                 this.findPreviousStage();
                 this.checkIfStageIs7(this.currentRequestPayment.baseInfo.stage);

@@ -488,6 +488,7 @@ export class RequestStageComponent implements OnInit {
 
     confirmedChangeBudget() {
         this.newBudget = this.projectBudgetsForm.get('budget').value;
+        this.currentBudgetSummary = null;
         this.infoMessage = 'Η αλλαγή θα αποθηκευθεί μαζί με την έγκριση του τρέχοντος σταδίου.';
         UIkit.modal('#changeBudgetModal').hide();
         window.scrollTo(1, 1);
