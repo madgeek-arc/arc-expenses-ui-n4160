@@ -135,10 +135,12 @@ export class BudgetComponent implements OnInit {
             if ((this.currentBudget.canEditPrevious === true) || (this.userIsAdmin())) {
                 this.currentRequestInfo.previousStage = prevStage;
             }
-        } else if ((this.currentBudget.budgetStatus === 'ACCEPTED') &&
+        }
+        /*TODO::uncomment if it turns out that the operator CAN change the budget !*/
+        /*else if ((this.currentBudget.budgetStatus === 'ACCEPTED') &&
                    (this.currentBudget.canEditPrevious === true) || (this.userIsAdmin()) ) {
             this.currentRequestInfo.previousStage = '1';
-        }
+        }*/
     }
 
     getSubmittedStage(submittedData: any[]) {
@@ -150,7 +152,6 @@ export class BudgetComponent implements OnInit {
             (this.currentRequestInfo.previousStage === '1')) {
             this.updateBudget('edit', updatedBudget);
         } else {
-            // TODO:: CHECK WHAT TO SEND WHEN IN EDIT MODE BUT BUDGET IS ACCEPTED
             this.updateBudget('approve', updatedBudget);
         }
     }

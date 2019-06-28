@@ -63,17 +63,21 @@
                                             <span>{{ currentRequestPayment.stages['1']['subject'] }}</span>
                                         </div>
 
-                                        <div *ngIf="(currentRequestPayment.type !== 'TRIP') && (currentRequestPayment.type !== 'CONTRACT')" class="uk-width-1-2@l">
+                                        <div *ngIf="(currentRequestPayment.type !== 'TRIP') && (currentRequestPayment.type !== 'CONTRACT')" class="uk-width-1-1@l">
                                             <span class="uk-text-bold uk-margin-small-right">Προμηθευτής:</span>
                                             <span>{{ currentRequestPayment.stages['1']['supplier'] }} ({{ selMethods[currentRequestPayment.stages['1']['supplierSelectionMethod']] }})</span>
                                         </div>
-                                        <div *ngIf="currentRequestPayment.type === 'TRIP'" class="uk-width-1-2@l">
+                                        <div *ngIf="currentRequestPayment.type === 'TRIP'" class="uk-width-1-1@l">
                                             <span class="uk-text-bold uk-margin-small-right">Προορισμός:</span>
                                             <span>{{ currentRequestPayment.tripDestination }}</span>
                                         </div>
                                         <div class="uk-width-1-2@l">
-                                            <span class="uk-text-bold uk-margin-small-right">
-                                              {{ (currentRequestPayment.stages['1']['amountInEuros'] !== currentRequestPayment.stages['1']['finalAmount']) ? 'Τελικό π': 'Π' }}οσό:</span>
+                                            <span class="uk-text-bold uk-margin-small-right">Ποσό:</span>
+                                            <span>{{ currentRequestPayment.stages['1']['amountInEuros'] | currency: 'EUR': 'symbol-narrow' }}</span>
+                                        </div>
+                                        <div *ngIf="currentRequestPayment.stages['1']['amountInEuros'] !== currentRequestPayment.stages['1']['finalAmount']"
+                                             class="uk-width-1-2@l">
+                                            <span class="uk-text-bold uk-margin-small-right">Τελικό ποσό:</span>
                                             <span>{{ currentRequestPayment.stages['1']['finalAmount'] | currency: 'EUR': 'symbol-narrow' }}</span>
                                         </div>
 

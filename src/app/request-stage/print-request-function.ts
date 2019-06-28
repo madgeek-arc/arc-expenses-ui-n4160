@@ -23,7 +23,7 @@ export function printRequestPage(reqId: string) {
 
     const appTitle = document.createElement('h4');
     appTitle.setAttribute('style', 'text-align: right; float:right;');
-    appTitle.innerText = 'Εφαρμογή διαχείρισης πρωτογενών αιτημάτων';
+    appTitle.innerText = 'Εφαρμογή διαχείρισης αιτημάτων δαπανών';
     imgDiv.appendChild(appTitle);
 
     data.insertBefore(imgDiv, data.childNodes[0]);
@@ -38,11 +38,6 @@ export function printRequestPage(reqId: string) {
         pdf.addImage(contentDataURL, 'PNG', 8, 10, imgWidth, imgHeight, '', 'FAST');
         const filename = reqId + '.pdf';
         pdf.save(filename, {usePromise: true}); // Generated PDF
-
-        /* THE POPUP WINDOW IS BLOCKED BY THE BROWSER */
-        // const file = new Blob([pdf.output('blob', {filename: filename})], {type: 'application/pdf'});
-        // const fileURL = URL.createObjectURL(file);
-        // window.open(fileURL, '_blank');
 
         data.removeChild(document.getElementById('logoimg'));
     });

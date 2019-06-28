@@ -77,9 +77,8 @@
                       <span>{{ currentRequestApproval.tripDestination }}</span>
                     </div>
                     <div class="uk-width-1-2@l">
-                      <span class="uk-text-bold uk-margin-small-right">
-                        {{ (currentRequestApproval.stages['1']['amountInEuros'] !== currentRequestApproval.stages['1']['finalAmount']) ? 'Τελικό π': 'Π' }}οσό:</span>
-                      <span>{{ currentRequestApproval.stages['1']['finalAmount'] | currency: 'EUR': 'symbol-narrow' }}</span>
+                      <span class="uk-text-bold uk-margin-small-right">Ποσό:</span>
+                      <span>{{ currentRequestApproval.stages['1']['amountInEuros'] | currency: 'EUR': 'symbol-narrow' }}</span>
                     </div>
 
                     <div *ngIf="currentRequestApproval.stages['1'].attachments && (currentRequestApproval.stages['1'].attachments.length > 0)"
@@ -270,6 +269,8 @@
               </li>
             </ul>
             <hr>
+            <!--
+            TODO::uncomment if it turns out that the operator CAN change the budget !
             <div *ngIf="projectBudgetsForm && currentBudgetSummary">
               <h6>Το αίτημα πρόκειται να χρεωθεί στον προϋπολογισμό του {{ currentBudgetSummary.year }}</h6>
               <form [formGroup]="projectBudgetsForm">
@@ -283,6 +284,7 @@
                         (click)="confirmChangeBudget()">Υποβολή</button>
               </form>
             </div>
+            -->
           </div>
 
           </div>
@@ -311,6 +313,8 @@
   </div>
 </div>
 
+<!--
+TODO::uncomment if it turns out that the operator CAN change the budget !
 <div *ngIf="currentBudgetSummary" id="changeBudgetModal" uk-modal>
   <div class="uk-modal-dialog uk-modal-body">
     <h4 class="uk-modal-title uk-h4">Μεταβολή του αιτήματος</h4>
@@ -321,3 +325,4 @@
     <button class="uk-button uk-button-default uk-modal-close">Κλείσιμο</button>
   </div>
 </div>
+-->

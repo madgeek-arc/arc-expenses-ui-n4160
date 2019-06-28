@@ -111,16 +111,18 @@ export class RequestStageComponent implements OnInit {
                 this.showAmounts = ((this.currentRequestApproval.baseInfo.stage !== '1') &&
                                     ((this.currentRequestApproval.total != null) && (this.currentRequestApproval.paid != null)) &&
                                     (this.userIsAdmin() || this.currentRequestApproval.canEdit));
-                if ((this.currentRequestApproval.baseInfo.stage === '3') &&
+                /*TODO::uncomment if it turns out that the operator CAN change the budget !*/
+                /*if ((this.currentRequestApproval.baseInfo.stage === '3') &&
                     (this.currentRequestApproval.canEdit || this.userIsAdmin())) {
                     this.getProjectBudgets();
-                }
+                }*/
                 window.scrollTo(1, 1);
             }
         );
     }
 
-    getProjectBudgets() {
+    /*TODO::uncomment if it turns out that the operator CAN change the budget !*/
+    /*getProjectBudgets() {
         this.errorMessage = '';
         this.showSpinner = true;
         this.requestService.getProjectBudgets(this.currentRequestApproval.baseInfo.requestId).subscribe(
@@ -142,7 +144,7 @@ export class RequestStageComponent implements OnInit {
                 }
             }
         );
-    }
+    }*/
 
     // detects previous stage and checks if the current user has permission to edit it
     findPreviousStage() {
@@ -153,7 +155,11 @@ export class RequestStageComponent implements OnInit {
                 let prevStage: string;
 
                 if (this.currentRequestApproval.baseInfo.status === 'ACCEPTED') {
-                    prevStage = '6';
+                    if (this.currentRequestApproval.stages['5b']) {
+                        prevStage = '5b';
+                    } else {
+                        prevStage = '3';
+                    }
                 } else {
                     for (const p of this.currentRequestInfo[ this.stages[i] ].prev) {
                         if (this.currentRequestApproval.stages[p] != null) {

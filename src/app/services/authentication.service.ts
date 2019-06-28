@@ -110,7 +110,6 @@ export class AuthenticationService {
                                 sessionStorage.setItem('role', '[{"authority":"ROLE_EXECUTIVE"}]');
                             } else {
                                 sessionStorage.setItem('role', JSON.stringify(userInfo['role']));
-                                // sessionStorage.setItem('role', '[{"authority":"ROLE_ADMIN"}]');
                             }
                             this.setUserProperties(userInfo['user']);
                         }
